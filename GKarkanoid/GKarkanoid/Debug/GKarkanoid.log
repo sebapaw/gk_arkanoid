@@ -1,0 +1,17 @@
+﻿  ball.cpp
+c:\users\krzys\source\repos\gk_arkanoid\gkarkanoid\gkarkanoid\ball.cpp(8): warning C4305: "inicjowanie": obcięcie z "double" do "float"
+c:\users\krzys\source\repos\gk_arkanoid\gkarkanoid\gkarkanoid\ball.cpp(16): warning C4305: "inicjowanie": obcięcie z "double" do "float"
+  block.cpp
+  board.cpp
+c:\users\krzys\source\repos\gk_arkanoid\gkarkanoid\gkarkanoid\board.cpp(26): warning C4018: "<": niezgodność typu ze znakiem/bez znaku
+c:\users\krzys\source\repos\gk_arkanoid\gkarkanoid\gkarkanoid\board.cpp(30): warning C4018: "<": niezgodność typu ze znakiem/bez znaku
+c:\users\krzys\source\repos\gk_arkanoid\gkarkanoid\gkarkanoid\board.cpp(55): warning C4018: "<": niezgodność typu ze znakiem/bez znaku
+c:\users\krzys\source\repos\gk_arkanoid\gkarkanoid\gkarkanoid\board.cpp(104): warning C4244: "inicjowanie": konwersja z "double" do "float", możliwa utrata danych
+c:\users\krzys\source\repos\gk_arkanoid\gkarkanoid\gkarkanoid\board.cpp(154): warning C4244: "argument": konwersja z "int" do "float", możliwa utrata danych
+c:\users\krzys\source\repos\gk_arkanoid\gkarkanoid\gkarkanoid\board.cpp(163): warning C4244: "argument": konwersja z "int" do "float", możliwa utrata danych
+  interf.cpp
+  source.cpp
+c:\users\krzys\source\repos\gk_arkanoid\gkarkanoid\gkarkanoid\source.cpp(8): warning C4244: "argument": konwersja z "time_t" do "unsigned int", możliwa utrata danych
+c:\users\krzys\source\repos\gk_arkanoid\gkarkanoid\gkarkanoid\source.cpp(22): warning C4305: "argument": obcięcie z "double" do "float"
+  Generowanie kodu...
+  GKarkanoid.vcxproj -> C:\Users\krzys\Source\Repos\gk_arkanoid\GKarkanoid\Debug\GKarkanoid.exe
