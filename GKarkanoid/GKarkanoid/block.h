@@ -8,7 +8,10 @@ class block :public sf::RectangleShape
 	sf::Font f;
 	const float sizex = 60, sizey = 30;
 public:
-	block(float x, float y, int hp);
+
+	bool isghost;
+	void removegh();
+	block(float x, float y, int hp,bool gh=false);
 
 	void draw(sf::RenderWindow* w);
 	bool takedmg(int d);

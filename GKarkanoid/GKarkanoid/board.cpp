@@ -17,6 +17,28 @@ board::board()
 
 	balls.push_back(new ball());
 	gamestate = 1;
+
+	
+
+}
+
+void board::checkghcol()
+{
+	for (size_t i = 0; i < blocks.size(); i++)
+	{
+		if (blocks[i]->isghost)
+		{
+			bool nocoli = true;
+			for (int j = 0; j < balls.size(); j++)
+			{
+				if (checkcoli(blocks[i], balls[j]))
+					nocoli = false;
+			}
+			if (nocoli)
+				blocks[i]->removegh();
+		}
+	}
+
 }
 
 void board::draw(sf::RenderWindow * w)
@@ -51,7 +73,7 @@ void board::update(float dt)
 			level++;
 		}
 
-
+		checkghcol();
 		for (int j = 0; j < balls.size(); j++)
 		{
 			balls[j]->update(dt);
@@ -59,22 +81,24 @@ void board::update(float dt)
 
 			for (size_t i = 0; i < blocks.size(); i++)
 			{
-				if (checkcoli(blocks[i], balls[j]))
+				if (blocks[i]->isghost == false && checkcoli(blocks[i], balls[j]) )
 				{
-					if (blocks[i]->takedmg(1))
-					{
-						delete blocks[i];
-						blocks.erase(blocks.begin() + i);
-						if (rand() % 2 == 0)
+					
+						if (blocks[i]->takedmg(1))
+						{
+							delete blocks[i];
+							blocks.erase(blocks.begin() + i);
+							if (rand() % 2 == 0)
+								balls.push_back(new ball());
+							score += 1;
+						}
+
+						if (rand() % 10 == 0)
 							balls.push_back(new ball());
-						score += 1;
-					}
-
-					if (rand() % 10 == 0)
-						balls.push_back(new ball());
-
-
+					
+					
 				}
+
 			}
 
 
@@ -97,7 +121,7 @@ void board::update(float dt)
 			}
 			if (by > 732) {
 
-				if (bx > px&&bx < px + psize && by<740)
+				if (bx > px&&bx < px + psize && by < 740)
 				{
 					balls[j]->setPosition(bx, 1464 - by);
 					balls[j]->v.y *= -1;
@@ -132,11 +156,19 @@ void board::update(float dt)
 			}
 		}
 
+		pboost += dt * 4;
+		if (pboost > 120) pboost = 120;
 
+		float pspeed = 190;
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift) && pboost > dt * 15)
+		{
+			pboost -= dt * 15;	
+			pspeed *= 3;
+		}
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
-			p.move(-190 * dt, 0);
+			p.move(-pspeed * dt, 0);
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
-			p.move(190 * dt, 0);
+			p.move(pspeed * dt, 0);
 		if (p.getPosition().x < 10)p.setPosition(10, p.getPosition().y);
 		if (p.getPosition().x > 940)p.setPosition(940, p.getPosition().y);
 
@@ -160,7 +192,7 @@ void board::addrowblocks(int hp)
 {
 	for (int j = 0; j < 10; j++)
 	{
-		blocks.push_back(new block(200 + 65 * j, 100, hp));
+		blocks.push_back(new block(200 + 65 * j, 100, hp,true));
 	}
 }
 
@@ -169,13 +201,15 @@ void board::moveblocks()
 	for (size_t i = 0; i < blocks.size(); i++)	//obnizanie klockow
 	{
 		--*blocks[i];
-		if (blocks[i]->getPosition().y > 710)
+		if (blocks[i]->getPosition().y > 725)
 			gamestate = 99;
 	}
 }
 
 bool board::checkcoli(block * bl, ball* bal)
 {
+	bool ng = !bl->isghost;
+
 	float r = bal->getRadius();
 	float xa = bal->getPosition().x;
 	float ya = bal->getPosition().y;
@@ -187,36 +221,36 @@ bool board::checkcoli(block * bl, ball* bal)
 
 	if (xa + r > xleft && xa - r < xright && ya > ytop && ya < ydown)
 	{
-		bal->v.x *= -1;
+		if(ng)bal->v.x *= -1;
 		return true;
 	}
 	else if (ya + r > ytop && ya - r<ydown && xa>xleft && xa < xright)
 	{
-		bal->v.y *= -1;
+		if (ng)bal->v.y *= -1;
 		return true;
 	}
 	else if (dist(xa, ya, xleft, ytop) < r)
 	{
 		//bal->v = sf::Vector2f(-2, -2);
-		bal->setangle(225);
+		if (ng)bal->setangle(225);
 		return true;
 	}
 	else if (dist(xa, ya, xleft, ydown) < r)
 	{
 		//bal->v = sf::Vector2f(-2, 2);
-		bal->setangle(135);
+		if (ng)bal->setangle(135);
 		return true;
 	}
 	else if (dist(xa, ya, xright, ytop) < r)
 	{
 		//bal->v = sf::Vector2f(2, -2);
-		bal->setangle(315);
+		if (ng)bal->setangle(315);
 		return true;
 	}
 	else if (dist(xa, ya, xright, ydown) < r)
 	{
 		//bal->v = sf::Vector2f(2, 2);
-		bal->setangle(45);
+		if (ng)bal->setangle(45);
 		return true;
 	}
 

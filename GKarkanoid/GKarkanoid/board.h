@@ -11,6 +11,7 @@ class board
 	sf::RectangleShape p;
 	float psize;
 
+
 	std::vector<ball*>balls;
 	int gamestate;
 	float dist(float x1, float y1, float x2, float y2)
@@ -23,10 +24,13 @@ class board
 
 public:
 
+	float pboost = 60;
+
 	int lives = 3;
 	int score = 0;
 
 	board();
+	void checkghcol();
 	void draw(sf::RenderWindow*w);
 	void update(float dt);
 	void adddefblocks();

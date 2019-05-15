@@ -7,9 +7,13 @@ void interf::draw(sf::RenderWindow*w)
 	std::ostringstream ss;
 	ss << "lives: " << bd->lives << "\nscore: " << bd->score;
 
+	pboost.fill(bd->pboost / 1.2);	//max pboost=120
+
 	infot.setString(ss.str());
 	w->draw(infop);
 	w->draw(infot);
+	w->draw(infop2);
+	pboost.show(w);
 }
 
 interf::interf(board*bd)
@@ -21,6 +25,12 @@ interf::interf(board*bd)
 	infop.setOutlineThickness(5);
 	infop.setOutlineColor(sf::Color::Color(64, 128, 64));
 
+	infop2.setFillColor(sf::Color::Color(255, 192, 108));
+	infop2.setSize(sf::Vector2f(165, 300));
+	infop2.setPosition(1025, 325);	
+	infop2.setOutlineThickness(5);
+	infop2.setOutlineColor(sf::Color::Color(228, 96, 54));
+
 	if (!f.loadFromFile("sansation.ttf"))
 	{
 		//err
@@ -29,6 +39,20 @@ interf::interf(board*bd)
 	infot.setCharacterSize(20);
 	infot.setPosition(1035, 20);
 	infot.setFillColor(sf::Color::Color(0, 0, 255));
+
+	infot2.setFont(f);
+	infot2.setCharacterSize(20);
+	infot2.setPosition(1035, 20);
+	infot2.setFillColor(sf::Color::Color(0, 0, 255));
+
+
+	pboost.setsize(120, 25);
+	pboost.setpos(1045, 340);
+	pboost.setcolor(64, 192, 255);
+	pboost.setemptycolor(0, 0, 0, 0);
+	pboost.fill(50);
+
+
 
 
 }

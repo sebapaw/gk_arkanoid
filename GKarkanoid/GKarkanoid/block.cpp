@@ -4,14 +4,21 @@
 
 
 
-block::block(float x, float y, int hp)
+void block::removegh()
 {
+	isghost = false;
+	setFillColor(sf::Color::Color(0, 222, 0));
+}
+
+block::block(float x, float y, int hp, bool gh)
+{
+	isghost = gh;
 	this->hp = hp;
 	maxhp = hp;
 	setPosition(x, y);
 	setSize(sf::Vector2f(sizex, sizey));
 	setOrigin(sizex / 2, sizey / 2);
-	setFillColor(sf::Color::Color(0, 222, 0));
+	setFillColor(sf::Color::Color(0, 222, 0,(gh==false?255:100)));
 	if (!f.loadFromFile("sansation.ttf"))
 	{
 		//err
