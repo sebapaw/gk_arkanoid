@@ -21,6 +21,19 @@ float ball::getangle()
 	return ang;
 }
 
+void ball::speedup(float s)
+{
+	float tmp = sqrt(v.x*v.x + v.y*v.y);
+	tmp += s;
+
+	float a = getangle();
+	const float r = 57.2957795;
+	v.x = cos(a / r)*tmp;
+	v.y = sin(a / r)*tmp;
+
+
+}
+
 void ball::restart()
 {
 	setPosition(900, 600);

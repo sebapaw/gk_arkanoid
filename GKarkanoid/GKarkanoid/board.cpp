@@ -73,6 +73,12 @@ void board::update(float dt)
 			level++;
 		}
 
+		for (size_t i = 0; i <balls.size(); i++)
+		{
+			balls[i]->speedup(dt * 1);
+		}
+		
+
 		checkghcol();
 		for (int j = 0; j < balls.size(); j++)
 		{

@@ -5,10 +5,11 @@ class ball :public sf::CircleShape
 
 public:
 
+	int dmg = 1;
 	void setangle(float a);
 	float getangle();
 
-
+	void speedup(float s);
 
 	void restart();
 
