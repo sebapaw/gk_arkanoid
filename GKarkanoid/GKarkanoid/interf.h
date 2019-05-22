@@ -15,6 +15,7 @@ class interf
 	sf::Font f;
 	board* bd;
 	progbar pboost;
+	progbar *mirrortime = nullptr;
 	
 
 public:

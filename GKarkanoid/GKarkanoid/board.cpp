@@ -82,8 +82,16 @@ void board::update(float dt)
 			stoptime -= dt;
 		}
 
+		mirrortime -= dt;
+
 		if (stoptime < 0)
 			blockstop = false;
+
+		if (mirrortime < 0)
+		{
+			delete mirrorP;
+			mirrorP = nullptr;
+		}
 
 		if (timetomove < 0)
 		{
@@ -278,6 +286,11 @@ void board::update(float dt)
 					case mirror:
 						delete mirrorP;
 						mirrorP = new sf::RectangleShape();
+						float oldmirrortime = mirrortime;
+						mirrortime = (rand() % 20) + 10;
+						mirrortime = sqrt(pow(mirrortime,2) + pow(oldmirrortime,2));
+						maxmirrortime = mirrortime;
+
 						mirrorP->setSize(sf::Vector2f(psize, 10));
 						mirrorP->setPosition(1010 - p.getPosition().x - psize, p.getPosition().y);
 						mirrorP->setFillColor(sf::Color::Color(225, 225, 225, 128));
@@ -355,7 +368,7 @@ void board::addrowblocks()
 	int rndpos = rand() % 10;
 	for (int j = 0; j < 10; j++)
 	{
-		if (j == rndpos && rows % 3 == 0)
+		if (j == rndpos && rows % 5 == 0)
 		{
 			blocks.push_back(new block(200 + 65 * j, 100, newhp*3, true,1));
 		}

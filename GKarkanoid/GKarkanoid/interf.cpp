@@ -4,6 +4,20 @@
 
 void interf::draw(sf::RenderWindow*w)
 {
+	if (!mirrortime&&bd->mirrorP)
+	{
+		mirrortime = new progbar;mirrortime->setsize(120, 25);
+		mirrortime->setpos(1045, 390);
+		mirrortime->setcolor(192, 192, 216);
+		mirrortime->setemptycolor(0, 0, 0, 0);
+		mirrortime->fill();
+	}
+	if (mirrortime&&!(bd->mirrorP))
+	{
+		delete mirrortime;
+		mirrortime = nullptr;
+	}
+
 	std::ostringstream ss;
 	ss << "lives: " << bd->lives << "\nscore: " << bd->score << "\nshield HP: " << bd->shieldHP;
 
@@ -14,6 +28,11 @@ void interf::draw(sf::RenderWindow*w)
 	w->draw(infot);
 	w->draw(infop2);
 	pboost.show(w);
+	if (mirrortime)
+	{
+		mirrortime->fill(bd->mirrortime / bd->maxmirrortime * 100);
+		mirrortime->show(w);
+	}
 }
 
 interf::interf(board*bd)
@@ -51,9 +70,6 @@ interf::interf(board*bd)
 	pboost.setcolor(64, 192, 255);
 	pboost.setemptycolor(0, 0, 0, 0);
 	pboost.fill(50);
-
-
-
 
 }
 

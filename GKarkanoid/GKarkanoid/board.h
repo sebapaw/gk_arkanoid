@@ -12,7 +12,7 @@ class board
 	sf::RectangleShape p;
 	float psize;
 	sf::RectangleShape *sBar = nullptr;
-	sf::RectangleShape *mirrorP = nullptr;
+	
 
 
 	std::vector<ball*>balls;
@@ -26,6 +26,7 @@ class board
 	float timetomove = 1;
 	bool blockstop = false;
 	float stoptime = 5;
+	
 
 	
 	int dmgmult = 1;
@@ -33,9 +34,12 @@ public:
 
 	float pboost = 60;
 	int shieldHP = 0;
-
+	float mirrortime = 0;
+	float maxmirrortime;
 	int lives = 3;
 	int score = 0;
+	sf::RectangleShape *mirrorP = nullptr;
+	
 
 	board();
 	void checkghcol();
