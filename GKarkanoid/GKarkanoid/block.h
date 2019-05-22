@@ -10,6 +10,7 @@ class block :public sf::RectangleShape
 public:
 
 	bool isghost;
+	
 	void removegh();
 	block(float x, float y, int hp,bool gh=false);
 

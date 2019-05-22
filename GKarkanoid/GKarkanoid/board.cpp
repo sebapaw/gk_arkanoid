@@ -43,24 +43,48 @@ void board::checkghcol()
 
 void board::draw(sf::RenderWindow * w)
 {
+
 	w->draw(border);
+	if (sBar)
+		w->draw(*sBar);
+
+	if (mirrorP)
+		w->draw(*mirrorP);
 	w->draw(p);
 	for (int i = 0; i < balls.size(); i++)
 	{
 		balls[i]->draw(w);
 	}
+	for (int i = 0; i < powerups.size(); i++)
+	{
+		powerups[i]->draw(w);
+	}
 	for (int i = 0; i < blocks.size(); i++)
 	{
 		blocks[i]->draw(w);
 	}
+	
+
+
 }
 
 void board::update(float dt)
 {
 	if (gamestate == 1)
 	{
-		totaltime += dt;
-		timetomove -= dt;
+		if (!blockstop)
+		{
+			totaltime += dt;
+			timetomove -= dt;
+		}
+		else
+		{
+			stoptime -= dt;
+		}
+
+		if (stoptime < 0)
+			blockstop = false;
+
 		if (timetomove < 0)
 		{
 			moveblocks();
@@ -73,38 +97,61 @@ void board::update(float dt)
 			level++;
 		}
 
-		for (size_t i = 0; i <balls.size(); i++)
+		for (size_t i = 0; i < balls.size(); i++)
 		{
 			balls[i]->speedup(dt * 1);
 		}
-		
+
 
 		checkghcol();
+
+		
+
+
 		for (int j = 0; j < balls.size(); j++)
 		{
 			balls[j]->update(dt);
 
 
+			if (sBar)
+			{
+				float by = balls[j]->getPosition().y;
+				
+				if (by > 737)
+				{
+					balls[j]->setPosition(balls[j]->getPosition().x, 1474 - by);
+					balls[j]->v.y *= -1;
+					shieldHP--;
+					if (shieldHP == 0)
+					{
+						delete sBar;
+						sBar = nullptr;
+					}
+					
+				
+				}
+			}
+
+
 			for (size_t i = 0; i < blocks.size(); i++)
 			{
-				if (blocks[i]->isghost == false && checkcoli(blocks[i], balls[j]) )
+				if (blocks[i]->isghost == false && checkcoli(blocks[i], balls[j]))
 				{
-					
-						if (blocks[i]->takedmg(1))
-						{
-							delete blocks[i];
-							blocks.erase(blocks.begin() + i);
-							if (rand() % 2 == 0)
-								balls.push_back(new ball());
-							score += 1;
-						}
 
-						if (rand() % 10 == 0)
-							balls.push_back(new ball());
-					
-					
+					if (rand() % 20 == 0)
+						powerups.push_back(new powerup(blocks[i]->getPosition()));
+
+					if (blocks[i]->takedmg(1))
+					{
+						if (rand() % 2 == 0)
+							powerups.push_back(new powerup(blocks[i]->getPosition()));
+						delete blocks[i];
+						blocks.erase(blocks.begin() + i);
+
+
+						score += 1;
+					}
 				}
-
 			}
 
 
@@ -140,7 +187,26 @@ void board::update(float dt)
 
 					//moveblocks();
 				}
-				else if (by > 740)
+
+				if (mirrorP)
+				{
+					float mpx = mirrorP->getPosition().x;
+
+					if (bx > mpx&&bx < mpx + psize && by < 740)
+					{
+						balls[j]->setPosition(bx, 1464 - by);
+						balls[j]->v.y *= -1;
+						float angchange = ((bx - mpx) / psize - 0.5) * 100;
+						float ang = balls[j]->getangle() + angchange;
+
+						if (ang > 320)ang = 320 + 40 * ((ang - 320) / (ang - 280));
+						if (ang < 220)ang = 220 - ((220 - ang) / (260 - ang) * 40);
+						balls[j]->setangle(ang);
+
+						//moveblocks();
+					}
+				}
+				if (by > 740)
 				{
 					if (balls.size() > 1)
 					{
@@ -162,24 +228,110 @@ void board::update(float dt)
 			}
 		}
 
-		pboost += dt * 4;
-		if (pboost > 120) pboost = 120;
-
-		float pspeed = 190;
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift) && pboost > dt * 15)
+		for (int i = 0; i < powerups.size();i++)
 		{
-			pboost -= dt * 15;	
-			pspeed *= 3;
+			powerups[i]->update(dt);
+			float px = p.getPosition().x;
+			float pux = powerups[i]->getPosition().x;
+			float puy = powerups[i]->getPosition().y;
+
+			if (puy > 740 - powerups[i]->getRadius())
+			{
+				if (pux > px&&pux < px + psize && puy < 740)
+				{
+
+					switch (powerups[i]->powerupType)
+					{
+					case multiBall:
+						balls.push_back(new ball());
+						delete powerups[i];
+						powerups.erase(powerups.begin() + i);
+						break;
+
+					case longerBoard:
+						psize += 10;
+						p.setSize(sf::Vector2f(psize, 10));
+						delete powerups[i];
+						powerups.erase(powerups.begin() + i);
+						break;
+
+					case shieldBar:
+						sBar = new sf::RectangleShape();
+						sBar->setSize(sf::Vector2f(1000, 5));
+						sBar->setPosition(10, 745);
+						shieldHP += 2;
+						sBar->setFillColor(sf::Color::Color(0, 0, 255));
+						delete powerups[i];
+						powerups.erase(powerups.begin() + i);
+						break;
+
+					case stop:
+						blockstop = true;
+						stoptime += 5;
+						delete powerups[i];
+						powerups.erase(powerups.begin() + i);
+						break;
+
+
+					case mirror:
+						delete mirrorP;
+						mirrorP = new sf::RectangleShape();
+						mirrorP->setSize(sf::Vector2f(psize, 10));
+						mirrorP->setPosition(1010 - p.getPosition().x - psize, p.getPosition().y);
+						mirrorP->setFillColor(sf::Color::Color(225, 225, 225, 128));
+						delete powerups[i];
+						powerups.erase(powerups.begin() + i);
+						break;
+					}
+
+					
+
+				}
+				if (puy > 740)
+				{
+					delete powerups[i];
+					powerups.erase(powerups.begin() + i);
+				}
+			}
 		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
-			p.move(-pspeed * dt, 0);
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
-			p.move(pspeed * dt, 0);
-		if (p.getPosition().x < 10)p.setPosition(10, p.getPosition().y);
-		if (p.getPosition().x > 940)p.setPosition(940, p.getPosition().y);
+
+		
+
+			pboost += dt * 4;
+			if (pboost > 120) pboost = 120;
+
+			float pspeed = 190;
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift) && pboost > dt * 15)
+			{
+				pboost -= dt * 15;
+				pspeed *= 3;
+			}
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+			{
+				p.move(-pspeed * dt, 0);
+				if (mirrorP)
+					mirrorP->move(pspeed * dt, 0);
+			}
+				
+				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+				{
+					p.move(pspeed * dt, 0);
+					if (mirrorP)
+						mirrorP->move(-pspeed * dt, 0);
+				}
+				
+			if (p.getPosition().x < 10)p.setPosition(10, p.getPosition().y);
+			if (p.getPosition().x > 1010-psize)p.setPosition(1010-psize, p.getPosition().y);
+
+			if (mirrorP)
+			{
+				if (mirrorP->getPosition().x < 10)mirrorP->setPosition(10, mirrorP->getPosition().y);
+				if (mirrorP->getPosition().x > 1010 - psize)mirrorP->setPosition(1010 - psize, mirrorP->getPosition().y);
+			}
 
 
-	}
+		}
+	
 }
 
 

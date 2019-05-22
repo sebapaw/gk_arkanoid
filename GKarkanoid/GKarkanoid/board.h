@@ -1,15 +1,18 @@
 #pragma once
 #include "block.h"
 #include "ball.h"
+#include "powerup.h"
 #include <vector>
 #include <cmath>
 class board
 {
 	std::vector<block*> blocks;
-
+	std::vector<powerup*> powerups;
 	sf::RectangleShape border;
 	sf::RectangleShape p;
 	float psize;
+	sf::RectangleShape *sBar = nullptr;
+	sf::RectangleShape *mirrorP = nullptr;
 
 
 	std::vector<ball*>balls;
@@ -21,10 +24,15 @@ class board
 
 	float totaltime = 0;
 	float timetomove = 1;
+	bool blockstop = false;
+	float stoptime = 5;
+
+	
 
 public:
 
 	float pboost = 60;
+	int shieldHP = 0;
 
 	int lives = 3;
 	int score = 0;

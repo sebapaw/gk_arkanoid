@@ -5,7 +5,7 @@
 void interf::draw(sf::RenderWindow*w)
 {
 	std::ostringstream ss;
-	ss << "lives: " << bd->lives << "\nscore: " << bd->score;
+	ss << "lives: " << bd->lives << "\nscore: " << bd->score << "\nshield HP: " << bd->shieldHP;
 
 	pboost.fill(bd->pboost / 1.2);	//max pboost=120
 
