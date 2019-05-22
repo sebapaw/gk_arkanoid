@@ -7,18 +7,27 @@
 void block::removegh()
 {
 	isghost = false;
-	setFillColor(sf::Color::Color(0, 222, 0));
+	if (type == 0)
+		setFillColor(sf::Color::Color(0, 222, 0));
+	else if (type == 1)
+	{
+		setFillColor(sf::Color::Color(70, 0, 130));
+	}
 }
 
-block::block(float x, float y, int hp, bool gh)
+block::block(float x, float y, int hp, bool gh,int t)
 {
+	type = t;
 	isghost = gh;
 	this->hp = hp;
 	maxhp = hp;
 	setPosition(x, y);
 	setSize(sf::Vector2f(sizex, sizey));
 	setOrigin(sizex / 2, sizey / 2);
-	setFillColor(sf::Color::Color(0, 222, 0,(gh==false?255:100)));
+	if (type == 0)
+		setFillColor(sf::Color::Color(0, 222, 0, (gh == false ? 255 : 100)));
+	else
+		setFillColor(sf::Color::Color(70, 0, 130, (gh == false ? 255 : 100)));
 	if (!f.loadFromFile("sansation.ttf"))
 	{
 		//err
@@ -52,7 +61,10 @@ bool block::takedmg(int d)
 		ss << hp;
 		hptext.setString(ss.str());
 	}
-	setFillColor(sf::Color::Color(255 - 255 * hp / maxhp, 222, 0));
+	if (type == 0)
+		setFillColor(sf::Color::Color(255 - 255 * hp / maxhp, 222, 0));
+	else if(type==1)
+		setFillColor(sf::Color::Color(70, 140-140*hp/maxhp, 130));
 	return false;
 }
 

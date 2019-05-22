@@ -93,7 +93,7 @@ void board::update(float dt)
 		static int level = 1;
 		if (totaltime > 35 * level)
 		{
-			addrowblocks(3 + level);
+			addrowblocks();
 			level++;
 		}
 
@@ -141,8 +141,10 @@ void board::update(float dt)
 					if (rand() % 20 == 0)
 						powerups.push_back(new powerup(blocks[i]->getPosition()));
 
-					if (blocks[i]->takedmg(1))
+					if (blocks[i]->takedmg(balls[j]->getdmg()*dmgmult))
 					{
+						if (blocks[i]->type == 1)
+							dmgmult += 1;
 						if (rand() % 2 == 0)
 							powerups.push_back(new powerup(blocks[i]->getPosition()));
 						delete blocks[i];
@@ -341,17 +343,26 @@ void board::adddefblocks()
 	{
 		for (int j = 0; j < 10; j++)
 		{
-			blocks.push_back(new block(200 + 65 * i, 100 + 35 * j, 2));
+			blocks.push_back(new block(200 + 65 * i, 100 + 35 * j, (j>6?1:2)));
 		}
 	}
 }
 
-void board::addrowblocks(int hp)
+void board::addrowblocks()
 {
+	static int rows = 1;
+	int newhp = floor(pow(2, pow(rows, 0.5)));
+	int rndpos = rand() % 10;
 	for (int j = 0; j < 10; j++)
 	{
-		blocks.push_back(new block(200 + 65 * j, 100, hp,true));
+		if (j == rndpos && rows % 3 == 0)
+		{
+			blocks.push_back(new block(200 + 65 * j, 100, newhp*3, true,1));
+		}
+		else if(rand()%10>1)
+		blocks.push_back(new block(200 + 65 * j, 100, newhp,true));
 	}
+	rows++;
 }
 
 void board::moveblocks()

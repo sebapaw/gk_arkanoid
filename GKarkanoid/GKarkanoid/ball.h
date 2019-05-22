@@ -2,10 +2,11 @@
 #include <SFML/Graphics.hpp>
 class ball :public sf::CircleShape
 {
-
+	int lvl = 1;
+	int basedmg = 1;
 public:
 
-	int dmg = 1;
+	int getdmg() { return lvl * basedmg; }
 	void setangle(float a);
 	float getangle();
 
@@ -14,7 +15,7 @@ public:
 	void restart();
 
 	sf::Vector2f v;
-	ball();
+	ball(int dmg=1);
 	void update(float dt);
 	void draw(sf::RenderWindow* w) { w->draw(*this); }
 	~ball();

@@ -28,7 +28,7 @@ class board
 	float stoptime = 5;
 
 	
-
+	int dmgmult = 1;
 public:
 
 	float pboost = 60;
@@ -42,7 +42,7 @@ public:
 	void draw(sf::RenderWindow*w);
 	void update(float dt);
 	void adddefblocks();
-	void addrowblocks(int hp);
+	void addrowblocks();
 	void moveblocks();
 	bool checkcoli(block* bl, ball* bal);
 

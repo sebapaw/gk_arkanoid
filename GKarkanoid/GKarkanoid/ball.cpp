@@ -40,8 +40,9 @@ void ball::restart()
 	v = sf::Vector2f(90, -60);
 }
 
-ball::ball()
+ball::ball(int dmg)
 {
+	basedmg = dmg;
 	setPosition(900, 600);
 	setFillColor(sf::Color::Color(255, 255, 55));
 	setRadius(8);
@@ -53,6 +54,16 @@ ball::ball()
 void ball::update(float dt)
 {
 	move(v*dt);
+	float speed = sqrt(v.x*v.x + v.y*v.y);
+	if (speed > 300)
+	{
+		float a = getangle();
+		const float r = 57.2957795;
+		v.x = cos(a / r) * 120;
+		v.y = sin(a / r) * 120;
+
+		lvl++;
+	}
 }
 
 
