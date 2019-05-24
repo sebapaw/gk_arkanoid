@@ -1,6 +1,5 @@
 #include <SFML/Graphics.hpp>
 #include <cmath>
-#include "board.h"
 #include "interf.h"
 #include <ctime>
 int main()

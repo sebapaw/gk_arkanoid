@@ -27,11 +27,9 @@ class board
 	bool blockstop = false;
 	float stoptime = 5;
 	
-
-	
-	int dmgmult = 1;
 public:
 
+	int dmgmult = 1;
 	float pboost = 60;
 	int shieldHP = 0;
 	float mirrortime = 0;

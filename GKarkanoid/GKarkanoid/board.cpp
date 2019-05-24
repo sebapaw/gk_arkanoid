@@ -113,32 +113,9 @@ void board::update(float dt)
 
 		checkghcol();
 
-		
-
-
 		for (int j = 0; j < balls.size(); j++)
 		{
 			balls[j]->update(dt);
-
-
-			if (sBar)
-			{
-				float by = balls[j]->getPosition().y;
-				
-				if (by > 737)
-				{
-					balls[j]->setPosition(balls[j]->getPosition().x, 1474 - by);
-					balls[j]->v.y *= -1;
-					shieldHP--;
-					if (shieldHP == 0)
-					{
-						delete sBar;
-						sBar = nullptr;
-					}
-					
-				
-				}
-			}
 
 
 			for (size_t i = 0; i < blocks.size(); i++)
@@ -184,7 +161,7 @@ void board::update(float dt)
 			}
 			if (by > 732) {
 
-				if (bx > px&&bx < px + psize && by < 740)
+				if (bx > px&&bx < px + psize && by < 740&&balls[j]->v.y>0)
 				{
 					balls[j]->setPosition(bx, 1464 - by);
 					balls[j]->v.y *= -1;
@@ -202,7 +179,7 @@ void board::update(float dt)
 				{
 					float mpx = mirrorP->getPosition().x;
 
-					if (bx > mpx&&bx < mpx + psize && by < 740)
+					if (bx > mpx&&bx < mpx + psize && by < 740&& balls[j]->v.y>0)
 					{
 						balls[j]->setPosition(bx, 1464 - by);
 						balls[j]->v.y *= -1;
@@ -213,10 +190,25 @@ void board::update(float dt)
 						if (ang < 220)ang = 220 - ((220 - ang) / (260 - ang) * 40);
 						balls[j]->setangle(ang);
 
-						//moveblocks();
 					}
 				}
-				if (by > 740)
+
+				if (sBar)
+				{
+					float by = balls[j]->getPosition().y;
+					if (by > 737 && balls[j]->v.y>0)
+					{
+						balls[j]->setPosition(balls[j]->getPosition().x, 1474 - by);
+						balls[j]->v.y *= -1;
+						shieldHP--;
+						if (shieldHP <1)
+						{
+							delete sBar;
+							sBar = nullptr;
+						}
+					}
+				}
+				if (by > 748)
 				{
 					if (balls.size() > 1)
 					{
@@ -259,7 +251,14 @@ void board::update(float dt)
 						break;
 
 					case longerBoard:
-						psize += 10;
+						if (psize < 120)
+							psize += 8;
+						else if (psize < 240)
+							psize += 4;
+						else if (psize < 360)
+							psize += 2;
+						else
+							psize += 1;
 						p.setSize(sf::Vector2f(psize, 10));
 						delete powerups[i];
 						powerups.erase(powerups.begin() + i);
@@ -269,7 +268,7 @@ void board::update(float dt)
 						sBar = new sf::RectangleShape();
 						sBar->setSize(sf::Vector2f(1000, 5));
 						sBar->setPosition(10, 745);
-						shieldHP += 2;
+						shieldHP += 2+rand()%2;
 						sBar->setFillColor(sf::Color::Color(0, 0, 255));
 						delete powerups[i];
 						powerups.erase(powerups.begin() + i);
@@ -293,7 +292,7 @@ void board::update(float dt)
 
 						mirrorP->setSize(sf::Vector2f(psize, 10));
 						mirrorP->setPosition(1010 - p.getPosition().x - psize, p.getPosition().y);
-						mirrorP->setFillColor(sf::Color::Color(225, 225, 225, 128));
+						mirrorP->setFillColor(sf::Color::Color(210, 225, 240, 128));
 						delete powerups[i];
 						powerups.erase(powerups.begin() + i);
 						break;
@@ -385,6 +384,11 @@ void board::moveblocks()
 		--*blocks[i];
 		if (blocks[i]->getPosition().y > 725)
 			gamestate = 99;
+	}
+
+	for (size_t i = 0; i < balls.size(); i++)
+	{
+		balls[i]->move(0, 1);
 	}
 }
 

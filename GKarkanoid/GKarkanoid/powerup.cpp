@@ -9,11 +9,11 @@ powerup::powerup(sf::Vector2f position)
 	setRadius(20);
 	setOrigin(getRadius(), getRadius());
 	setFillColor(sf::Color::Color(255, 0, 0, 125));
-	//powerupType = static_cast<PowerType>(rand() % 5);
-	powerupType = mirror;
+	powerupType = static_cast<PowerType>(rand() % 5);
+	//powerupType = mirror;
 }
 
 void powerup::update(float dt)
 {
-	move(0, dt * 20);
+	move(0, dt * 30);
 }
