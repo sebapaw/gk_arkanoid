@@ -10,7 +10,7 @@ class board
 	std::vector<powerup*> powerups;
 	sf::RectangleShape border;
 	sf::RectangleShape p;
-	float psize;
+	
 	sf::RectangleShape *sBar = nullptr;
 	
 
@@ -26,11 +26,19 @@ class board
 	float timetomove = 1;
 	bool blockstop = false;
 	float stoptime = 5;
-	
-public:
 
+	void updpowerups(float dt);
+	
+		//lowestpos +23
+	void findlowestblock();		
+	float lowestblockpos;
+public:
+	
+	int getballc() { return balls.size(); }
+	float psize;
+	int shieldmult = 1;
 	int dmgmult = 1;
-	float pboost = 60;
+	float pboost = 60;	
 	int shieldHP = 0;
 	float mirrortime = 0;
 	float maxmirrortime;

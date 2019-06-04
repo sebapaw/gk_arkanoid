@@ -6,10 +6,10 @@ void interf::draw(sf::RenderWindow*w)
 {
 	if (!mirrortime&&bd->mirrorP)
 	{
-		mirrortime = new progbar;mirrortime->setsize(120, 25);
+		mirrortime = new progbar;	mirrortime->setsize(120, 25);
 		mirrortime->setpos(1045, 390);
 		mirrortime->setcolor(192, 192, 216);
-		mirrortime->setemptycolor(0, 0, 0, 0);
+		mirrortime->setemptycolor(0, 0, 0, 0);		
 		mirrortime->fill();
 	}
 	if (mirrortime&&!(bd->mirrorP))
@@ -20,7 +20,7 @@ void interf::draw(sf::RenderWindow*w)
 
 	std::ostringstream ss;
 	ss << "lives: " << bd->lives << "\nscore: " << bd->score << "\nshield HP: " << bd->shieldHP
-		<<"\ndmg mult:"<<bd->dmgmult;
+		<< "\ndmg mult:" << bd->dmgmult << "\n\nballs:"<<bd->getballc();
 
 	pboost.fill(bd->pboost / 1.2);	//max pboost=120
 

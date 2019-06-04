@@ -1,3 +1,2 @@
-﻿  interf.cpp
-c:\users\krzys\source\repos\gk_arkanoid\gkarkanoid\gkarkanoid\interf.cpp(25): warning C4244: "argument": konwersja z "double" do "float", możliwa utrata danych
-  GKarkanoid.vcxproj -> C:\Users\krzys\Source\Repos\gk_arkanoid\GKarkanoid\Debug\GKarkanoid.exe
+﻿  block.cpp
+  GKarkanoid.vcxproj -> C:\Users\krzys\source\repos\gk_arkanoid\GKarkanoid\Debug\GKarkanoid.exe

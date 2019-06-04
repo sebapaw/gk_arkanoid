@@ -53,6 +53,8 @@ ball::ball(int dmg)
 
 void ball::update(float dt)
 {
+	oldpos = getPosition();
+
 	move(v*dt);
 	float speed = sqrt(v.x*v.x + v.y*v.y);
 	if (speed > 270+30*lvl)
