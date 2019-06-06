@@ -111,7 +111,7 @@ board::board()
 	p.setPosition(600, 740);
 
 	balls.push_back(new ball());
-	gamestate = 1;
+	gamestate = 0;
 	adddefblocks();
 	findlowestblock();
 	
@@ -173,8 +173,8 @@ void board::update(float dt)
 		{
 			if (spcpress)
 			{
-				totaltime += dt*10;
-				timetomove -= dt*10;
+				totaltime += dt*20;
+				timetomove -= dt*20;
 			}
 			else
 			{
@@ -228,8 +228,9 @@ void board::update(float dt)
 				{
 					if (blocks[i]->isghost == false && checkcoli(blocks[i], balls[j]))
 					{
-
-						if (rand() % 20 == 0)
+						
+						int chance = 7 - floor(log((double)(balls.size())));
+						if (rand() % 100<chance)
 							powerups.push_back(new powerup(blocks[i]->getPosition()));
 
 						if (blocks[i]->takedmg(balls[j]->getdmg()*dmgmult))
@@ -339,7 +340,7 @@ void board::update(float dt)
 		pboost += dt * 4;
 		if (pboost > 120) pboost = 120;
 
-		float pspeed = 190;
+		float pspeed = 240;
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift) && pboost > dt * 15)
 		{
 			pboost -= dt * 15;
@@ -373,7 +374,6 @@ void board::update(float dt)
 	
 }
 
-
 void board::adddefblocks()
 {
 	for (int i = 0; i < 10; i++)
@@ -400,8 +400,14 @@ void board::addrowblocks()
 		{
 			blocks.push_back(new block(200 + 65 * j, 100, floor(pow(2, pow(rows, 0.42))) , true, 2));
 		}
-		else if(rand()%10>1)
-		blocks.push_back(new block(200 + 65 * j, 100, newhp,true));
+		else
+		{
+			int r = rand() % 10;
+			if ( r> 2)
+				blocks.push_back(new block(200 + 65 * j, 100, newhp, true));
+			if (r == 2)
+				blocks.push_back(new block(200 + 65 * j, 100, ceil(newhp*1.4), true, 3));
+		}
 	}
 	rows++;
 }
@@ -420,12 +426,23 @@ void board::moveblocks()
 	{
 		balls[i]->move(0, 1);
 	}
+
+	if (rand() % 100 < 8)
+	{
+		float tmp = rand() % 100;
+		if (tmp > 50)
+			powerups.push_back(new powerup(sf::Vector2f(rand() % 980 + 20, 20), 0));
+		else if(tmp>75)
+			powerups.push_back(new powerup(sf::Vector2f(rand() % 980 + 20, 20), 2));
+		else
+			powerups.push_back(new powerup(sf::Vector2f(rand() % 980 + 20, 20), 1));
+	}
+
 }
 
 bool board::checkcoli(block * bl, ball* bal)
 {
-	bool ng = !bl->isghost;
-
+	
 	float r = bal->getRadius();
 	float xa = bal->getPosition().x;
 	float ya = bal->getPosition().y;
@@ -434,6 +451,14 @@ bool board::checkcoli(block * bl, ball* bal)
 	float xright = bl->getPosition().x + (bl->getSize().x / 2);
 	float ytop = bl->getPosition().y - (bl->getSize().y / 2);
 	float ydown = bl->getPosition().y + (bl->getSize().y / 2);
+
+	if (xa > xright + r || xa < xleft - r || ya + r<ytop || ya - r>ydown)	//optymalizacja
+	{
+		return false;
+	}
+
+
+	bool ng = !bl->isghost;
 
 	if (xa + r > xleft && xa - r < xright && ya > ytop && ya < ydown)
 	{

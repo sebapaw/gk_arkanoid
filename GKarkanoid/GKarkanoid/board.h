@@ -6,6 +6,7 @@
 #include <cmath>
 class board
 {
+
 	std::vector<block*> blocks;
 	std::vector<powerup*> powerups;
 	sf::RectangleShape border;
@@ -16,7 +17,7 @@ class board
 
 
 	std::vector<ball*>balls;
-	int gamestate;
+	
 	float dist(float x1, float y1, float x2, float y2)
 	{
 		return sqrt((x1 - x2)* (x1 - x2) + (y1 - y2) * (y1 - y2));
@@ -34,6 +35,7 @@ class board
 	float lowestblockpos;
 public:
 	
+	int gamestate;
 	int getballc() { return balls.size(); }
 	float psize;
 	int shieldmult = 1;

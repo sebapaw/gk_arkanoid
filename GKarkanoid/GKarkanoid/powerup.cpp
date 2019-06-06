@@ -25,5 +25,5 @@ powerup::powerup(sf::Vector2f position, int type)
 
 void powerup::update(float dt)
 {
-	move(0, dt * 30);
+	move(0, dt * 40);
 }

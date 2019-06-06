@@ -128,6 +128,7 @@
     <ClCompile Include="ball.cpp" />
     <ClCompile Include="block.cpp" />
     <ClCompile Include="board.cpp" />
+    <ClCompile Include="button.cpp" />
     <ClCompile Include="interf.cpp" />
     <ClCompile Include="powerup.cpp" />
     <ClCompile Include="progbar.cpp" />
@@ -137,6 +138,7 @@
     <ClInclude Include="ball.h" />
     <ClInclude Include="block.h" />
     <ClInclude Include="board.h" />
+    <ClInclude Include="button.h" />
     <ClInclude Include="interf.h" />
     <ClInclude Include="powerup.h" />
     <ClInclude Include="progbar.h" />

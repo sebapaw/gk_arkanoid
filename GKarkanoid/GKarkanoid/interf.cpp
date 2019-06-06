@@ -2,8 +2,62 @@
 #include <sstream>
 
 
+void interf::createmenu()
+{
+	menu = new sf::RectangleShape;
+	menu->setFillColor(sf::Color::Color(100, 140, 180));
+	menu->setPosition(400, 200);
+	menu->setSize(sf::Vector2f(200, 300));
+	
+	startb = new button;
+	startb->set(420, 420, "start");
+	startb->setsize(150, 50);
+
+	highb = new button;
+	highb->set(420, 320, "high scores");
+	highb->setsize(150, 50);
+}
+
+void interf::showmenu(sf::RenderWindow*w)
+{
+	sf::Vector2i pos = sf::Mouse::getPosition(*w);
+	bool mp = sf::Mouse::isButtonPressed(sf::Mouse::Left);
+
+	//if (highb->checkclick(mp, pos))
+
+	if (startb->checkclick(mp, pos))
+	{
+		bd->gamestate = 1;
+		deletemenu();
+		menu = nullptr;
+	}
+
+
+
+	if (menu)
+	{
+		w->draw(*menu);
+		startb->show(w);
+		highb->show(w);
+	}
+}
+
 void interf::draw(sf::RenderWindow*w)
 {
+	if (bd->gamestate == 0)
+		if (!menu)
+		{
+			createmenu();
+			showmenu(w);
+		}
+		else
+			showmenu(w);
+	if (bd->gamestate != 0 && menu)
+	{
+		deletemenu();
+		menu = nullptr;
+	}
+
 	if (!mirrortime&&bd->mirrorP)
 	{
 		mirrortime = new progbar;	mirrortime->setsize(120, 25);

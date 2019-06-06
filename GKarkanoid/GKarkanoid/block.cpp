@@ -13,6 +13,15 @@ void block::removegh()
 	{
 		setFillColor(sf::Color::Color(70, 0, 130));
 	}
+	else if (type == 2)
+	{
+		setFillColor(sf::Color::Color(128, 0, 0));
+	}
+	else if (type == 3)
+	{
+		setFillColor(sf::Color::Color(0, 240, 255));
+	}
+	
 }
 
 block::block(float x, float y, int hp, bool gh,int t)
@@ -26,10 +35,12 @@ block::block(float x, float y, int hp, bool gh,int t)
 	setOrigin(sizex / 2, sizey / 2);
 	if (type == 0)
 		setFillColor(sf::Color::Color(0, 222, 0, (gh == false ? 255 : 100)));
-	else if(type==1)
+	else if (type == 1)
 		setFillColor(sf::Color::Color(70, 0, 130, (gh == false ? 255 : 100)));
 	else if (type == 2)
 		setFillColor(sf::Color::Color(128, 0, 0, (gh == false ? 255 : 100)));
+	else if (type == 3)
+		setFillColor(sf::Color::Color(0, 240, 255, (gh == false ? 255 : 100)));
 	if (!f.loadFromFile("sansation.ttf"))
 	{
 		//err
@@ -70,10 +81,12 @@ bool block::takedmg(int d)
 	}
 	if (type == 0)
 		setFillColor(sf::Color::Color(255 - 255 * hp / maxhp, 222, 0));
-	else if(type==1)
-		setFillColor(sf::Color::Color(70, 140-140*hp/maxhp, 130));
+	else if (type == 1)
+		setFillColor(sf::Color::Color(70, 140 - 140 * hp / maxhp, 130));
 	else if (type == 2)
 		setFillColor(sf::Color::Color(128, 140 - 140 * hp / maxhp, 0));
+	else if (type == 3)
+		setFillColor(sf::Color::Color(240 - 240 * hp / maxhp, 240, 255));
 	return false;
 }
 
@@ -81,6 +94,24 @@ void block::operator--()
 {
 	move(0, 1);
 	hptext.move(0, 1);
+	if (type == 3 && rand() % 100 < 40)
+	{
+		if (maxhp > 100)
+		{
+			hp += maxhp / 100;
+			if (hp > maxhp)
+				hp = maxhp;
+		}
+		else
+			if (rand() % 80 < maxhp&&hp<maxhp)
+				hp++;
+
+		std::ostringstream ss;
+		ss << hp;
+		hptext.setString(ss.str());
+		setFillColor(sf::Color::Color(240 - 240 * hp / maxhp, 240, 255));
+	}
+
 }
 
 block::~block()
