@@ -20,8 +20,7 @@ void board::updpowerups(float dt)
 				{
 				case multiBall:
 					balls.push_back(new ball());
-					delete powerups[i];
-					powerups.erase(powerups.begin() + i);
+					
 					break;
 
 				case longerBoard:
@@ -36,8 +35,7 @@ void board::updpowerups(float dt)
 					else
 						psize += 0.2;
 					p.setSize(sf::Vector2f(psize, 10));
-					delete powerups[i];
-					powerups.erase(powerups.begin() + i);
+					
 					break;
 
 				case shieldBar:
@@ -46,8 +44,7 @@ void board::updpowerups(float dt)
 					sBar->setPosition(10, 745);
 					shieldHP += (2 + rand() % 2)*shieldmult;
 					sBar->setFillColor(sf::Color::Color(0, 0, 255));
-					delete powerups[i];
-					powerups.erase(powerups.begin() + i);
+					
 					break;
 
 				case stop:
@@ -56,28 +53,34 @@ void board::updpowerups(float dt)
 						stoptime += 5;
 					else
 						stoptime += (15 / (1 + stoptime)) * 5;
-					delete powerups[i];
-					powerups.erase(powerups.begin() + i);
+					
 					break;
 
 
 				case mirror:
 					delete mirrorP;
 					mirrorP = new sf::RectangleShape();
-					float oldmirrortime = mirrortime;
-					mirrortime = (rand() % 20) + 10;
-					mirrortime = sqrt(pow(mirrortime, 2) + pow(oldmirrortime, 2));
+					//float oldmirrortime = mirrortime;
+					//mirrortime = (rand() % 20) + 10;
+					mirrortime = sqrt(pow(mirrortime, 2) + pow((rand() % 20) + 10, 2));
 					maxmirrortime = mirrortime;
 
 					mirrorP->setSize(sf::Vector2f(psize, 10));
 					mirrorP->setPosition(1010 - p.getPosition().x - psize, p.getPosition().y);
 					mirrorP->setFillColor(sf::Color::Color(210, 225, 240, 128));
-					delete powerups[i];
-					powerups.erase(powerups.begin() + i);
+					
+					break;
+
+
+				case lvlup:
+
+					int randball = rand() % balls.size();
+					balls[randball]->lvlup();
 					break;
 				}
 
-
+				delete powerups[i];
+				powerups.erase(powerups.begin() + i);
 
 			}
 			if (puy > 740)
@@ -437,7 +440,12 @@ void board::moveblocks()
 	{
 		float tmp = rand() % 100;
 		if (tmp > 50)
-			powerups.push_back(new powerup(sf::Vector2f(rand() % 980 + 20, 20), 0));
+		{
+			if (balls.size() < 10)
+				powerups.push_back(new powerup(sf::Vector2f(rand() % 980 + 20, 20), 0));
+			else
+				powerups.push_back(new powerup(sf::Vector2f(rand() % 980 + 20, 20), 5));
+		}
 		else if(tmp>75)
 			powerups.push_back(new powerup(sf::Vector2f(rand() % 980 + 20, 20), 2));
 		else

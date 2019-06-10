@@ -5,6 +5,7 @@ class ball :public sf::CircleShape
 	int lvl = 1;
 	int basedmg = 1;
 public:
+	void lvlup();
 	sf::Vector2f oldpos;
 	int getdmg() { return lvl * basedmg; }
 	void setangle(float a);

@@ -1,7 +1,7 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 
-enum PowerType { multiBall, longerBoard, shieldBar, stop, mirror, setback };
+enum PowerType { multiBall, longerBoard, shieldBar, stop, mirror,lvlup, setback };
 
 class powerup : public sf::CircleShape
 {
