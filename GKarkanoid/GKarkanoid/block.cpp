@@ -94,11 +94,11 @@ void block::operator--()
 {
 	move(0, 1);
 	hptext.move(0, 1);
-	if (type == 3 && rand() % 100 < 40)
+	if (type == 3 && rand() % 100 < 60)
 	{
-		if (maxhp > 100)
+		if (maxhp > 80)
 		{
-			hp += maxhp / 100;
+			hp += maxhp / 80;
 			if (hp > maxhp)
 				hp = maxhp;
 		}

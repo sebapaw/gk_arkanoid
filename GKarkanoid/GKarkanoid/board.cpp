@@ -52,7 +52,10 @@ void board::updpowerups(float dt)
 
 				case stop:
 					blockstop = true;
-					stoptime += 5;
+					if (stoptime < 15)
+						stoptime += 5;
+					else
+						stoptime += (15 / (1 + stoptime)) * 5;
 					delete powerups[i];
 					powerups.erase(powerups.begin() + i);
 					break;
@@ -410,6 +413,9 @@ void board::addrowblocks()
 		}
 	}
 	rows++;
+
+	findlowestblock();
+
 }
 
 void board::moveblocks()
