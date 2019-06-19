@@ -9,12 +9,41 @@ powerup::powerup(sf::Vector2f position)
 	setPosition(position.x, position.y);
 	setRadius(20);
 	setOrigin(getRadius(), getRadius());
-	if (powerupType == lvlup)
-		setFillColor(sf::Color::Color(0, 125, 255, 125));
-	else
-		setFillColor(sf::Color::Color(255, 0, 0, 125));
-	
 	//powerupType = mirror;
+	switch (powerupType)
+	{
+	case multiBall:
+		powerupTexture.loadFromFile("Textures/multiBall.png");
+		setTexture(&powerupTexture);
+		break;
+
+	case longerBoard:
+		powerupTexture.loadFromFile("Textures/longerBoard.png");
+		setTexture(&powerupTexture);
+		break;
+
+	case shieldBar:
+		powerupTexture.loadFromFile("Textures/shieldBar.png");
+		setTexture(&powerupTexture);
+		break;
+
+	case stop:
+		powerupTexture.loadFromFile("Textures/stop.png");
+		setTexture(&powerupTexture);
+		break;
+
+	case mirror:
+		powerupTexture.loadFromFile("Textures/mirror.png");
+		setTexture(&powerupTexture);
+		break;
+
+	case lvlup:
+		powerupTexture.loadFromFile("Textures/lvlup.png");
+		setTexture(&powerupTexture);
+		break;
+	}
+	
+
 }
 
 powerup::powerup(sf::Vector2f position, int type)
@@ -23,10 +52,39 @@ powerup::powerup(sf::Vector2f position, int type)
 	setPosition(position.x, position.y);
 	setRadius(20);
 	setOrigin(getRadius(), getRadius());
-	if (powerupType == lvlup)
-		setFillColor(sf::Color::Color(0, 125, 255, 125));
-	else
-		setFillColor(sf::Color::Color(255, 0, 0, 125));
+	switch (powerupType)
+	{
+	case multiBall:
+		powerupTexture.loadFromFile("Textures/multiBall.png");
+		setTexture(&powerupTexture);
+		break;
+
+	case longerBoard:
+		powerupTexture.loadFromFile("Textures/longerBoard.png");
+		setTexture(&powerupTexture);
+		break;
+
+	case shieldBar:
+		powerupTexture.loadFromFile("Textures/shieldBar.png");
+		setTexture(&powerupTexture);
+		break;
+
+	case stop:
+		powerupTexture.loadFromFile("Textures/stop.png");
+		setTexture(&powerupTexture);
+		break;
+
+	case mirror:
+		powerupTexture.loadFromFile("Textures/mirror.png");
+		setTexture(&powerupTexture);
+		break;
+
+	case lvlup:
+		powerupTexture.loadFromFile("Textures/lvlup.png");
+		setTexture(&powerupTexture);
+	}
+	
+
 }
 
 void powerup::update(float dt)

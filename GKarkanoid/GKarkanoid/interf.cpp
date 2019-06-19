@@ -72,6 +72,20 @@ void interf::draw(sf::RenderWindow*w)
 		mirrortime = nullptr;
 	}
 
+	if (!stoptime&&bd->blockstop)
+	{
+		stoptime = new progbar;	stoptime->setsize(120, 25);
+		stoptime->setpos(1045, 430);
+		stoptime->setcolor(237, 28, 36);
+		stoptime->setemptycolor(0, 0, 0, 0);
+		stoptime->fill();
+	}
+	if (stoptime && !(bd->blockstop))
+	{
+		delete stoptime;
+		stoptime = nullptr;
+	}
+
 	std::ostringstream ss;
 	ss << "lives: " << bd->lives << "\nscore: " << bd->score << "\nshield HP: " << bd->shieldHP
 		<< "\ndmg mult:" << bd->dmgmult << "\n\nballs:"<<bd->getballc();
@@ -87,6 +101,12 @@ void interf::draw(sf::RenderWindow*w)
 	{
 		mirrortime->fill(bd->mirrortime / bd->maxmirrortime * 100);
 		mirrortime->show(w);
+	}
+
+	if (stoptime)
+	{
+		stoptime->fill(bd->stoptime / bd->maxstoptime * 100);
+		stoptime->show(w);
 	}
 }
 

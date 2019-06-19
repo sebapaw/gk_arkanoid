@@ -53,7 +53,7 @@ void board::updpowerups(float dt)
 						stoptime += 5;
 					else
 						stoptime += (15 / (1 + stoptime)) * 5;
-					
+					maxstoptime = stoptime;
 					break;
 
 
@@ -316,6 +316,7 @@ void board::update(float dt)
 						{
 							delete sBar;
 							sBar = nullptr;
+							shieldHP = 0;
 						}
 					}
 				}

@@ -12,7 +12,7 @@ public:
 	powerup(sf::Vector2f position);
 	powerup(sf::Vector2f position,int type);
 	
-	sf::Sprite powerupIcon;
+	sf::Texture powerupTexture;
 	void update(float dt);
 	void draw(sf::RenderWindow* w) { w->draw(*this); }
 };

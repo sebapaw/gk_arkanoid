@@ -20,6 +20,7 @@ class interf
 	board* bd;
 	progbar pboost;
 	progbar *mirrortime = nullptr;
+	progbar *stoptime = nullptr;
 	
 	void createmenu();
 	void showmenu(sf::RenderWindow*w);

@@ -25,8 +25,8 @@ class board
 
 	float totaltime = 0;
 	float timetomove = 1;
-	bool blockstop = false;
-	float stoptime = 5;
+
+	
 
 	void updpowerups(float dt);
 	
@@ -34,7 +34,10 @@ class board
 	void findlowestblock();		
 	float lowestblockpos;
 public:
-	
+
+	bool blockstop = false;
+	float stoptime = 5;
+	float maxstoptime;
 	int gamestate;
 	int getballc() { return balls.size(); }
 	float psize;
