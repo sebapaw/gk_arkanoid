@@ -63,6 +63,8 @@ public:
 	void moveblocks();
 	bool checkcoli(block* bl, ball* bal);
 
+	bool isIntersecting(sf::Vector2f p1, sf::Vector2f p2, sf::Vector2f q1, sf::Vector2f q2);
+
 	~board();
 };
 

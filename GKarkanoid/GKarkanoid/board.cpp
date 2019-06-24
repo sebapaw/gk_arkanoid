@@ -490,15 +490,23 @@ void board::moveblocks()
 
 bool board::checkcoli(block * bl, ball* bal)
 {
-	
+
 	float r = bal->getRadius();
 	float xa = bal->getPosition().x;
 	float ya = bal->getPosition().y;
+	sf::Vector2f curbal(xa, ya);
 
 	float xleft = bl->getPosition().x - (bl->getSize().x / 2);
 	float xright = bl->getPosition().x + (bl->getSize().x / 2);
 	float ytop = bl->getPosition().y - (bl->getSize().y / 2);
 	float ydown = bl->getPosition().y + (bl->getSize().y / 2);
+
+	//sf::Vector2f blLT(xleft, ytop);
+	//sf::Vector2f blLD(xleft, ydown);
+	//sf::Vector2f blRT(xright, ytop);
+	//sf::Vector2f blRD(xright, ydown);
+
+	bool ng = !bl->isghost;
 
 	if (xa > xright + r || xa < xleft - r || ya + r<ytop || ya - r>ydown)	//optymalizacja
 	{
@@ -506,14 +514,52 @@ bool board::checkcoli(block * bl, ball* bal)
 	}
 
 
-	bool ng = !bl->isghost;
-
-	if (xa + r > xleft && xa - r < xright && ya > ytop && ya < ydown)
+	if (xa + r > xleft && xa - r < xright && ya > ytop && ya < ydown) // left & right
 	{
-		if(ng)bal->v.x *= -1;
-		return true;
+		if (xa < xleft && bal->oldpos.x < xa)
+		{
+			if (ng)bal->v.x *= -1;
+			return true;
+		}
+		if (xa > xright && bal->oldpos.x > xa)
+		{
+			if (ng)bal->v.x *= -1;
+			return true;
+		}
+		
+
+		sf::Vector2f blLT(xleft, ytop);
+		sf::Vector2f blLD(xleft, ydown);
+		sf::Vector2f blRT(xright, ytop);
+		sf::Vector2f blRD(xright, ydown);
+
+		if (isIntersecting(curbal, bal->oldpos, blLT - sf::Vector2f(-8, 0), blLD) && ng) //left wall
+		{
+			int x = 0;
+			if (ng)bal->v.x *= -1;
+			return true;
+		}
+		else if (isIntersecting(curbal, bal->oldpos, blRT, blRD) && ng) //right wall
+		{
+			int x = 0;
+			if (ng)bal->v.x *= -1;
+			return true;
+		}
+		else if (isIntersecting(curbal, bal->oldpos, blLT, blRT) && ng) //top wall
+		{
+			int x = 0;
+			if (ng)bal->v.y *= -1;
+			return true;
+		}
+		else if (isIntersecting(curbal, bal->oldpos, blLD, blRD) && ng) //down wall
+		{
+			int x = 0;
+			if (ng)bal->v.y *= -1;
+			return true;
+		}
+		
 	}
-	else if (ya + r > ytop && ya - r<ydown && xa>xleft && xa < xright)
+	else if (ya + r > ytop && ya - r<ydown && xa>xleft && xa < xright) // top & down
 	{
 		if (ng)bal->v.y *= -1;
 		return true;
@@ -543,7 +589,18 @@ bool board::checkcoli(block * bl, ball* bal)
 		return true;
 	}
 
+	
+
 	return false;
+}
+
+bool board::isIntersecting(sf::Vector2f p1, sf::Vector2f p2, sf::Vector2f q1, sf::Vector2f q2)
+{
+	return (((q1.x - p1.x)*(p2.y - p1.y) - (q1.y - p1.y)*(p2.x - p1.x))
+		* ((q2.x - p1.x)*(p2.y - p1.y) - (q2.y - p1.y)*(p2.x - p1.x)) < 0)
+		&&
+		(((p1.x - q1.x)*(q2.y - q1.y) - (p1.y - q1.y)*(q2.x - q1.x))
+			* ((p2.x - q1.x)*(q2.y - q1.y) - (p2.y - q1.y)*(q2.x - q1.x)) < 0);
 }
 
 board::~board()
