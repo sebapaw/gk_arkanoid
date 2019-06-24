@@ -64,8 +64,9 @@ void ball::restart()
 	v = sf::Vector2f(90, -60);
 }
 
-ball::ball(int dmg)
+ball::ball(int dmg, int t)
 {
+	type = t;
 	basedmg = dmg;
 	setPosition(900, 600);
 	setFillColor(sf::Color::Color(255, 255, 55));
@@ -73,13 +74,22 @@ ball::ball(int dmg)
 	setOrigin(getRadius(), getRadius());
 	v = sf::Vector2f(90, -60);
 
+	if (type == 2)
+	{
+		setOutlineThickness(2);
+		setOutlineColor(sf::Color::Color(220, 150, 0));
+	}
+
 }
 
 void ball::update(float dt)
 {
 	oldpos = getPosition();
+	if (type == 2)
+		move(v*dt*0.7f);
+	else
+		move(v*dt);
 
-	move(v*dt);
 	float speed = sqrt(v.x*v.x + v.y*v.y);
 	if (speed > 275+25*sqrt(lvl))
 	{

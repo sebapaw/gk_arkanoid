@@ -103,6 +103,34 @@ void board::findlowestblock()
 	lowestblockpos = lowest + 23;
 }
 
+void board::bexplode(sf::Vector2f pos, float radius, int dmg)
+{
+	for (int i = 0; i <blocks.size(); i++)
+	{
+		float d = dist(pos.x, pos.y, blocks[i]->getPosition().x, blocks[i]->getPosition().y);
+		if (d < radius)
+		{
+			dmg = (1 - d / radius)*dmg*0.5*dmgmult;
+			if (dmg < 1) dmg = 1;
+			if (blocks[i]->takedmg(dmg))
+			{
+				if (blocks[i]->type == 1)
+					dmgmult += 1;
+				else if (blocks[i]->type == 2)
+					shieldmult += 1;
+				if (rand() % 2 == 0)
+					powerups.push_back(new powerup(blocks[i]->getPosition()));
+				delete blocks[i];
+				blocks.erase(blocks.begin() + i);
+				i--;
+				findlowestblock();
+
+				score += 1;
+			}
+		}
+	}
+}
+
 board::board()
 {
 	border.setPosition(10, 10);
@@ -252,6 +280,11 @@ void board::update(float dt)
 							findlowestblock();
 
 							score += 1;
+						}
+
+						if (balls[j]->type == 2)
+						{
+							bexplode(balls[j]->getPosition(), 80, balls[j]->getdmg());
 						}
 					}
 				}

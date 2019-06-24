@@ -33,6 +33,8 @@ class board
 		//lowestpos +23
 	void findlowestblock();		
 	float lowestblockpos;
+
+	void bexplode(sf::Vector2f pos, float radius, int dmg);
 public:
 
 	bool blockstop = false;
