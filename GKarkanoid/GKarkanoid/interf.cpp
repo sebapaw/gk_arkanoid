@@ -114,13 +114,13 @@ interf::interf(board*bd)
 {
 	this->bd = bd;
 	infop.setFillColor(sf::Color::Color(128, 240, 128));
-	infop.setSize(sf::Vector2f(165, 300));
+	infop.setSize(sf::Vector2f(215, 300));
 	infop.setPosition(1025, 10);
 	infop.setOutlineThickness(5);
 	infop.setOutlineColor(sf::Color::Color(64, 128, 64));
 
 	infop2.setFillColor(sf::Color::Color(255, 192, 108));
-	infop2.setSize(sf::Vector2f(165, 300));
+	infop2.setSize(sf::Vector2f(215, 300));
 	infop2.setPosition(1025, 325);	
 	infop2.setOutlineThickness(5);
 	infop2.setOutlineColor(sf::Color::Color(228, 96, 54));

@@ -36,7 +36,7 @@ class board
 
 	void bexplode(sf::Vector2f pos, float radius, int dmg);
 public:
-
+		
 	bool blockstop = false;
 	float stoptime = 5;
 	float maxstoptime;

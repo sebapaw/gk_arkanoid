@@ -267,7 +267,7 @@ void board::update(float dt)
 						if (rand() % 100<chance)
 							powerups.push_back(new powerup(blocks[i]->getPosition()));
 
-						if (blocks[i]->takedmg(balls[j]->getdmg()*dmgmult))
+						if (blocks[i]->takedmg(balls[j]->getdmg()*dmgmult,balls[j]->type==3))
 						{
 							if (blocks[i]->type == 1)
 								dmgmult += 1;
@@ -458,10 +458,22 @@ void board::addrowblocks()
 void board::moveblocks()
 {
 	for (size_t i = 0; i < blocks.size(); i++)	//obnizanie klockow
-	{
 		--*blocks[i];
-		
-	}
+	for (size_t i = 0; i < blocks.size(); i++)
+		if (blocks[i]->gethp() < 1)
+		{
+			if (blocks[i]->type == 1)
+				dmgmult += 1;
+			else if (blocks[i]->type == 2)
+				shieldmult += 1;
+			if (rand() % 2 == 0)
+				powerups.push_back(new powerup(blocks[i]->getPosition()));
+			delete blocks[i];
+			blocks.erase(blocks.begin() + i);
+			findlowestblock();
+			score += 1;
+		}
+
 	lowestblockpos += 1;
 	if (lowestblockpos>748)
 		gamestate = 99;
@@ -470,7 +482,7 @@ void board::moveblocks()
 		balls[i]->move(0, 1);
 	}
 
-	if (rand() % 100 < 8)
+	if (rand() % 100 < 7)
 	{
 		float tmp = rand() % 100;
 		if (tmp > 50)

@@ -64,15 +64,18 @@ void block::draw(sf::RenderWindow * w)
 	w->draw(hptext);
 }
 
-bool block::takedmg(int d)
+bool block::takedmg(int d,bool r)
 {
-	if (type == 2)
+	if (r)
+		rad = pow(pow(d, 1.25) + pow(rad, 1.25), 0.8);
+	if (type == 2&&d>0)
 		d = 1;
 	hp -= d;
 	if (hp < 1)
 	{
 		return true;
 	}
+	
 	else
 	{
 		std::ostringstream ss;
@@ -94,6 +97,14 @@ void block::operator--()
 {
 	move(0, 1);
 	hptext.move(0, 1);
+	if (rad > 0)
+	{
+		int raddmg = int((rand() % 100)*(rand() % 100) / 6000.0f * rad);
+		takedmg(raddmg);
+		rad -= raddmg * 0.1;
+	}
+
+
 	if (type == 3 && rand() % 100 < 60)
 	{
 		if (maxhp > 80)

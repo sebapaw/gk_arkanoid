@@ -79,6 +79,11 @@ ball::ball(int dmg, int t)
 		setOutlineThickness(2);
 		setOutlineColor(sf::Color::Color(220, 150, 0));
 	}
+	if (type == 3)
+	{
+		setOutlineThickness(2);
+		setOutlineColor(sf::Color::Color(150, 245, 180));
+	}
 
 }
 
