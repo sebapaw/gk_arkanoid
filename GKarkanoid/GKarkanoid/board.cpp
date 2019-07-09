@@ -73,9 +73,38 @@ void board::updpowerups(float dt)
 
 
 				case lvlup:
+					balls[rand() % balls.size()]->lvlup();
+					break;
 
-					int randball = rand() % balls.size();
-					balls[randball]->lvlup();
+				case fuel:
+					pboost += 10;
+					break;
+
+				case maxFuel:
+					maxfuel += 15;
+					break;
+
+				case explBall:
+					balls[rand() % balls.size()]->updtype(2);
+					break;
+
+				case radBall:
+					balls[rand() % balls.size()]->updtype(3);
+					break;
+
+				case dmgAll:
+					for (int ii = 0; ii < blocks.size(); ii++)
+					{
+						if (blocks[ii]->takedmg(dmgmult))
+						{
+							removeblock(ii);
+							ii--;
+						}
+					}
+					break;
+				case destrRandom:
+					int r = rand() % blocks.size();
+					removeblock(r);
 					break;
 				}
 
@@ -103,32 +132,39 @@ void board::findlowestblock()
 	lowestblockpos = lowest + 23;
 }
 
-void board::bexplode(sf::Vector2f pos, float radius, int dmg)
+void board::bexplode(sf::Vector2f pos , int dmg)
 {
+	float radius = 85+6*log(dmg);
 	for (int i = 0; i <blocks.size(); i++)
 	{
 		float d = dist(pos.x, pos.y, blocks[i]->getPosition().x, blocks[i]->getPosition().y);
 		if (d < radius)
 		{
-			dmg = (1 - d / radius)*dmg*0.5*dmgmult;
+			dmg = (1 - d / radius)*dmg*0.6*dmgmult;
 			if (dmg < 1) dmg = 1;
 			if (blocks[i]->takedmg(dmg))
 			{
-				if (blocks[i]->type == 1)
-					dmgmult += 1;
-				else if (blocks[i]->type == 2)
-					shieldmult += 1;
-				if (rand() % 2 == 0)
-					powerups.push_back(new powerup(blocks[i]->getPosition()));
-				delete blocks[i];
-				blocks.erase(blocks.begin() + i);
+				removeblock(i);
 				i--;
-				findlowestblock();
-
-				score += 1;
 			}
 		}
 	}
+}
+
+void board::removeblock(int i)
+{
+	int t = blocks[i]->type;
+	
+	if (blocks[i]->type == 1)
+		dmgmult += 1;
+	else if (blocks[i]->type == 2)
+		shieldmult += 1;
+	if (rand() % 2 == 0)
+		powerups.push_back(new powerup(blocks[i]->getPosition(), rollb(bonuschances)));
+	score += 1;
+	delete blocks[i];
+	blocks.erase(blocks.begin() + i);
+	findlowestblock();
 }
 
 board::board()
@@ -191,10 +227,9 @@ void board::draw(sf::RenderWindow * w)
 	}
 	for (int i = 0; i < blocks.size(); i++)
 	{
-		blocks[i]->draw(w);
+		blocks[i]->draw(w,option0,dmgmult);
 	}
 	
-
 
 }
 
@@ -265,26 +300,16 @@ void board::update(float dt)
 						
 						int chance = 7 - floor(log((double)(balls.size())));
 						if (rand() % 100<chance)
-							powerups.push_back(new powerup(blocks[i]->getPosition()));
+							powerups.push_back(new powerup(blocks[i]->getPosition(),rollb(bonuschances)));
 
 						if (blocks[i]->takedmg(balls[j]->getdmg()*dmgmult,balls[j]->type==3))
 						{
-							if (blocks[i]->type == 1)
-								dmgmult += 1;
-							else if (blocks[i]->type == 2)
-								shieldmult += 1;
-							if (rand() % 2 == 0)
-								powerups.push_back(new powerup(blocks[i]->getPosition()));
-							delete blocks[i];
-							blocks.erase(blocks.begin() + i);
-							findlowestblock();
-
-							score += 1;
+							removeblock(i);
 						}
 
 						if (balls[j]->type == 2)
 						{
-							bexplode(balls[j]->getPosition(), 80, balls[j]->getdmg());
+							bexplode(balls[j]->getPosition(), balls[j]->getdmg());
 						}
 					}
 				}
@@ -378,7 +403,7 @@ void board::update(float dt)
 		updpowerups(dt);
 
 		pboost += dt * 4;
-		if (pboost > 120) pboost = 120;
+		if (pboost > maxfuel) pboost = maxfuel;
 
 		float pspeed = 240;
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift) && pboost > dt * 15)

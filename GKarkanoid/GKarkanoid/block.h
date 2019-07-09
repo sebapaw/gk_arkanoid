@@ -17,7 +17,7 @@ public:
 	void removegh();
 	block(float x, float y, int hp,bool gh=false, int t=0);
 
-	void draw(sf::RenderWindow* w);
+	void draw(sf::RenderWindow* w,bool opt0=false,int div=1);
 	bool takedmg(int d,bool r=false);
 	void operator--();
 

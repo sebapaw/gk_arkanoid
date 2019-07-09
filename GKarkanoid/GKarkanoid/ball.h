@@ -8,6 +8,20 @@ public:
 
 	int type;
 	void lvlup();
+	void updtype(int t)
+	{
+		type = t;
+		if (type == 2)
+		{
+			setOutlineThickness(4);
+			setOutlineColor(sf::Color::Color(220, 150, 0, 150));
+		}
+		if (type == 3)
+		{
+			setOutlineThickness(4);
+			setOutlineColor(sf::Color::Color(150, 245, 180, 150));
+		}
+	}
 	sf::Vector2f oldpos;
 	int getdmg() { return lvl * basedmg; }
 	void setangle(float a);

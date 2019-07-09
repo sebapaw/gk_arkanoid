@@ -1,7 +1,8 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 
-enum PowerType { multiBall, longerBoard, shieldBar, stop, mirror,lvlup, setback };
+enum PowerType { multiBall, longerBoard, shieldBar, stop, mirror, lvlup, fuel, maxFuel, explBall, radBall,
+	dmgAll, destrRandom /*,weapon,setback,magnet*/ };
 
 class powerup : public sf::CircleShape
 {

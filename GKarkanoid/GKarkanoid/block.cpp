@@ -53,13 +53,21 @@ block::block(float x, float y, int hp, bool gh,int t)
 		hptext.setPosition(x - 25, y - 11);
 	else
 		hptext.setPosition(x - 10, y - 11);
-	std::ostringstream ss;
+	/*std::ostringstream ss;
 	ss << hp;
-	hptext.setString(ss.str());
+	hptext.setString(ss.str());*/
 }
 
-void block::draw(sf::RenderWindow * w)
+void block::draw(sf::RenderWindow * w,bool opt,int div)
 {
+	int displayhp = hp;
+
+	if (opt&&type!=2)
+		displayhp=ceil(float(hp)/div);
+
+	std::ostringstream ss;
+	ss << displayhp;
+	hptext.setString(ss.str());
 	w->draw(*this);
 	w->draw(hptext);
 }
@@ -101,7 +109,7 @@ void block::operator--()
 	{
 		int raddmg = int((rand() % 100)*(rand() % 100) / 6000.0f * rad);
 		takedmg(raddmg);
-		rad -= raddmg * 0.1;
+		rad -= raddmg * 0.12;
 	}
 
 
@@ -117,9 +125,9 @@ void block::operator--()
 			if (rand() % 80 < maxhp&&hp<maxhp)
 				hp++;
 
-		std::ostringstream ss;
+		/*std::ostringstream ss;
 		ss << hp;
-		hptext.setString(ss.str());
+		hptext.setString(ss.str());*/
 		setFillColor(sf::Color::Color(240 - 240 * hp / maxhp, 240, 255));
 	}
 

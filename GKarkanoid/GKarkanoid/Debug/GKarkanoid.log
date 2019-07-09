@@ -2,28 +2,32 @@
 c:\users\krzys\source\repos\gk_arkanoid\gkarkanoid\gkarkanoid\board.cpp(7): warning C4018: "<": niezgodność typu ze znakiem/bez znaku
 c:\users\krzys\source\repos\gk_arkanoid\gkarkanoid\gkarkanoid\board.cpp(36): warning C4305: "+=": obcięcie z "double" do "float"
 c:\users\krzys\source\repos\gk_arkanoid\gkarkanoid\gkarkanoid\board.cpp(65): warning C4244: "=": konwersja z "double" do "float", możliwa utrata danych
-c:\users\krzys\source\repos\gk_arkanoid\gkarkanoid\gkarkanoid\board.cpp(98): warning C4018: "<": niezgodność typu ze znakiem/bez znaku
-c:\users\krzys\source\repos\gk_arkanoid\gkarkanoid\gkarkanoid\board.cpp(108): warning C4018: "<": niezgodność typu ze znakiem/bez znaku
-c:\users\krzys\source\repos\gk_arkanoid\gkarkanoid\gkarkanoid\board.cpp(113): warning C4244: "=": konwersja z "double" do "int", możliwa utrata danych
-c:\users\krzys\source\repos\gk_arkanoid\gkarkanoid\gkarkanoid\board.cpp(162): warning C4018: "<": niezgodność typu ze znakiem/bez znaku
-c:\users\krzys\source\repos\gk_arkanoid\gkarkanoid\gkarkanoid\board.cpp(184): warning C4018: "<": niezgodność typu ze znakiem/bez znaku
-c:\users\krzys\source\repos\gk_arkanoid\gkarkanoid\gkarkanoid\board.cpp(188): warning C4018: "<": niezgodność typu ze znakiem/bez znaku
-c:\users\krzys\source\repos\gk_arkanoid\gkarkanoid\gkarkanoid\board.cpp(192): warning C4018: "<": niezgodność typu ze znakiem/bez znaku
-c:\users\krzys\source\repos\gk_arkanoid\gkarkanoid\gkarkanoid\board.cpp(255): warning C4018: "<": niezgodność typu ze znakiem/bez znaku
-c:\users\krzys\source\repos\gk_arkanoid\gkarkanoid\gkarkanoid\board.cpp(266): warning C4244: "inicjowanie": konwersja z "double" do "int", możliwa utrata danych
-c:\users\krzys\source\repos\gk_arkanoid\gkarkanoid\gkarkanoid\board.cpp(312): warning C4244: "inicjowanie": konwersja z "double" do "float", możliwa utrata danych
-c:\users\krzys\source\repos\gk_arkanoid\gkarkanoid\gkarkanoid\board.cpp(330): warning C4244: "inicjowanie": konwersja z "double" do "float", możliwa utrata danych
-c:\users\krzys\source\repos\gk_arkanoid\gkarkanoid\gkarkanoid\board.cpp(423): warning C4244: "argument": konwersja z "int" do "float", możliwa utrata danych
-c:\users\krzys\source\repos\gk_arkanoid\gkarkanoid\gkarkanoid\board.cpp(431): warning C4244: "inicjowanie": konwersja z "double" do "int", możliwa utrata danych
-c:\users\krzys\source\repos\gk_arkanoid\gkarkanoid\gkarkanoid\board.cpp(437): warning C4244: "argument": konwersja z "int" do "float", możliwa utrata danych
-c:\users\krzys\source\repos\gk_arkanoid\gkarkanoid\gkarkanoid\board.cpp(441): warning C4244: "argument": konwersja z "double" do "int", możliwa utrata danych
-c:\users\krzys\source\repos\gk_arkanoid\gkarkanoid\gkarkanoid\board.cpp(441): warning C4244: "argument": konwersja z "int" do "float", możliwa utrata danych
-c:\users\krzys\source\repos\gk_arkanoid\gkarkanoid\gkarkanoid\board.cpp(447): warning C4244: "argument": konwersja z "int" do "float", możliwa utrata danych
-c:\users\krzys\source\repos\gk_arkanoid\gkarkanoid\gkarkanoid\board.cpp(449): warning C4244: "argument": konwersja z "double" do "int", możliwa utrata danych
-c:\users\krzys\source\repos\gk_arkanoid\gkarkanoid\gkarkanoid\board.cpp(449): warning C4244: "argument": konwersja z "int" do "float", możliwa utrata danych
-c:\users\krzys\source\repos\gk_arkanoid\gkarkanoid\gkarkanoid\board.cpp(487): warning C4244: "inicjowanie": konwersja z "int" do "float", możliwa utrata danych
-c:\users\krzys\source\repos\gk_arkanoid\gkarkanoid\gkarkanoid\board.cpp(491): warning C4244: "argument": konwersja z "int" do "float", możliwa utrata danych
-c:\users\krzys\source\repos\gk_arkanoid\gkarkanoid\gkarkanoid\board.cpp(493): warning C4244: "argument": konwersja z "int" do "float", możliwa utrata danych
-c:\users\krzys\source\repos\gk_arkanoid\gkarkanoid\gkarkanoid\board.cpp(496): warning C4244: "argument": konwersja z "int" do "float", możliwa utrata danych
-c:\users\krzys\source\repos\gk_arkanoid\gkarkanoid\gkarkanoid\board.cpp(498): warning C4244: "argument": konwersja z "int" do "float", możliwa utrata danych
+c:\users\krzys\source\repos\gk_arkanoid\gkarkanoid\gkarkanoid\board.cpp(96): warning C4018: "<": niezgodność typu ze znakiem/bez znaku
+c:\users\krzys\source\repos\gk_arkanoid\gkarkanoid\gkarkanoid\board.cpp(127): warning C4018: "<": niezgodność typu ze znakiem/bez znaku
+c:\users\krzys\source\repos\gk_arkanoid\gkarkanoid\gkarkanoid\board.cpp(137): warning C4244: "inicjowanie": konwersja z "double" do "float", możliwa utrata danych
+c:\users\krzys\source\repos\gk_arkanoid\gkarkanoid\gkarkanoid\board.cpp(138): warning C4018: "<": niezgodność typu ze znakiem/bez znaku
+c:\users\krzys\source\repos\gk_arkanoid\gkarkanoid\gkarkanoid\board.cpp(143): warning C4244: "=": konwersja z "double" do "int", możliwa utrata danych
+c:\users\krzys\source\repos\gk_arkanoid\gkarkanoid\gkarkanoid\board.cpp(198): warning C4018: "<": niezgodność typu ze znakiem/bez znaku
+c:\users\krzys\source\repos\gk_arkanoid\gkarkanoid\gkarkanoid\board.cpp(220): warning C4018: "<": niezgodność typu ze znakiem/bez znaku
+c:\users\krzys\source\repos\gk_arkanoid\gkarkanoid\gkarkanoid\board.cpp(224): warning C4018: "<": niezgodność typu ze znakiem/bez znaku
+c:\users\krzys\source\repos\gk_arkanoid\gkarkanoid\gkarkanoid\board.cpp(228): warning C4018: "<": niezgodność typu ze znakiem/bez znaku
+c:\users\krzys\source\repos\gk_arkanoid\gkarkanoid\gkarkanoid\board.cpp(290): warning C4018: "<": niezgodność typu ze znakiem/bez znaku
+c:\users\krzys\source\repos\gk_arkanoid\gkarkanoid\gkarkanoid\board.cpp(301): warning C4244: "inicjowanie": konwersja z "double" do "int", możliwa utrata danych
+c:\users\krzys\source\repos\gk_arkanoid\gkarkanoid\gkarkanoid\board.cpp(337): warning C4244: "inicjowanie": konwersja z "double" do "float", możliwa utrata danych
+c:\users\krzys\source\repos\gk_arkanoid\gkarkanoid\gkarkanoid\board.cpp(355): warning C4244: "inicjowanie": konwersja z "double" do "float", możliwa utrata danych
+c:\users\krzys\source\repos\gk_arkanoid\gkarkanoid\gkarkanoid\board.cpp(448): warning C4244: "argument": konwersja z "int" do "float", możliwa utrata danych
+c:\users\krzys\source\repos\gk_arkanoid\gkarkanoid\gkarkanoid\board.cpp(456): warning C4244: "inicjowanie": konwersja z "double" do "int", możliwa utrata danych
+c:\users\krzys\source\repos\gk_arkanoid\gkarkanoid\gkarkanoid\board.cpp(462): warning C4244: "argument": konwersja z "int" do "float", możliwa utrata danych
+c:\users\krzys\source\repos\gk_arkanoid\gkarkanoid\gkarkanoid\board.cpp(466): warning C4244: "argument": konwersja z "double" do "int", możliwa utrata danych
+c:\users\krzys\source\repos\gk_arkanoid\gkarkanoid\gkarkanoid\board.cpp(466): warning C4244: "argument": konwersja z "int" do "float", możliwa utrata danych
+c:\users\krzys\source\repos\gk_arkanoid\gkarkanoid\gkarkanoid\board.cpp(472): warning C4244: "argument": konwersja z "int" do "float", możliwa utrata danych
+c:\users\krzys\source\repos\gk_arkanoid\gkarkanoid\gkarkanoid\board.cpp(474): warning C4244: "argument": konwersja z "double" do "int", możliwa utrata danych
+c:\users\krzys\source\repos\gk_arkanoid\gkarkanoid\gkarkanoid\board.cpp(474): warning C4244: "argument": konwersja z "int" do "float", możliwa utrata danych
+c:\users\krzys\source\repos\gk_arkanoid\gkarkanoid\gkarkanoid\board.cpp(512): warning C4244: "inicjowanie": konwersja z "int" do "float", możliwa utrata danych
+c:\users\krzys\source\repos\gk_arkanoid\gkarkanoid\gkarkanoid\board.cpp(516): warning C4244: "argument": konwersja z "int" do "float", możliwa utrata danych
+c:\users\krzys\source\repos\gk_arkanoid\gkarkanoid\gkarkanoid\board.cpp(518): warning C4244: "argument": konwersja z "int" do "float", możliwa utrata danych
+c:\users\krzys\source\repos\gk_arkanoid\gkarkanoid\gkarkanoid\board.cpp(521): warning C4244: "argument": konwersja z "int" do "float", możliwa utrata danych
+c:\users\krzys\source\repos\gk_arkanoid\gkarkanoid\gkarkanoid\board.cpp(523): warning C4244: "argument": konwersja z "int" do "float", możliwa utrata danych
+  interf.cpp
+  Generowanie kodu...
   GKarkanoid.vcxproj -> C:\Users\krzys\source\repos\gk_arkanoid\GKarkanoid\Debug\GKarkanoid.exe

@@ -9,26 +9,21 @@ class interf
 {
 	sf::RectangleShape* menu;
 
-	button* startb, *highb;
+	button* startb, *highb, *option0;
 
-	sf::RectangleShape infop;
-	sf::RectangleShape infop2;
-
-	sf::Text infot;
-	sf::Text infot2;
+	sf::RectangleShape infop, infop2;
+	
+	sf::Text infot2, infot, optiontx, pboosttx;
 	sf::Font f;
 	board* bd;
 	progbar pboost;
-	progbar *mirrortime = nullptr;
-	progbar *stoptime = nullptr;
+	progbar *mirrortime = nullptr, *stoptime = nullptr;
 	
 	void createmenu();
 	void showmenu(sf::RenderWindow*w);
-	void deletemenu() { delete startb; delete highb; delete menu; }
+	void deletemenu() { delete startb; delete highb; delete option0; delete menu; }
 public:
 	void draw(sf::RenderWindow*w);
-
-
 
 	interf(board*bd);
 	~interf();

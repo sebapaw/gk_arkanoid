@@ -76,13 +76,13 @@ ball::ball(int dmg, int t)
 
 	if (type == 2)
 	{
-		setOutlineThickness(2);
-		setOutlineColor(sf::Color::Color(220, 150, 0));
+		setOutlineThickness(4);
+		setOutlineColor(sf::Color::Color(220, 150, 0,150));
 	}
 	if (type == 3)
 	{
-		setOutlineThickness(2);
-		setOutlineColor(sf::Color::Color(150, 245, 180));
+		setOutlineThickness(4);
+		setOutlineColor(sf::Color::Color(150, 245, 180,150));
 	}
 
 }
@@ -91,7 +91,11 @@ void ball::update(float dt)
 {
 	oldpos = getPosition();
 	if (type == 2)
+	{
 		move(v*dt*0.7f);
+		if (rand() % 20 == 0)
+			setOutlineColor(sf::Color::Color(200 + rand() % 56, 50 + rand() % 150, rand() % 100, 110 + rand() % 55));
+	}
 	else
 		move(v*dt);
 

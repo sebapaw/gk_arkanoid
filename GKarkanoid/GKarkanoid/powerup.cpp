@@ -82,6 +82,7 @@ powerup::powerup(sf::Vector2f position, int type)
 	case lvlup:
 		powerupTexture.loadFromFile("Textures/lvlup.png");
 		setTexture(&powerupTexture);
+		break;
 	}
 	
 
