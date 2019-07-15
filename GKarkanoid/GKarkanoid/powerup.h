@@ -14,6 +14,7 @@ public:
 	powerup(sf::Vector2f position,int type);
 	
 	sf::Texture powerupTexture;
+	void update(float dt);
 	void update(float dt, bool magnetON, float px, float psize);
 	void draw(sf::RenderWindow* w) { w->draw(*this); }
 };

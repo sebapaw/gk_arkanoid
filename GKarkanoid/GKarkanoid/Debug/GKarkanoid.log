@@ -45,6 +45,7 @@ c:\users\seita\source\repos\gk_arkanoid\gkarkanoid\gkarkanoid\board.cpp(545): wa
               T=float
           ]
   interf.cpp
+  powerup.cpp
   source.cpp
 c:\users\seita\source\repos\gk_arkanoid\gkarkanoid\gkarkanoid\source.cpp(7): warning C4244: "argument": konwersja z "time_t" do "unsigned int", możliwa utrata danych
 c:\users\seita\source\repos\gk_arkanoid\gkarkanoid\gkarkanoid\source.cpp(20): warning C4305: "argument": obcięcie z "double" do "float"
