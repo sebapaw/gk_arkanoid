@@ -95,6 +95,8 @@ void interf::draw(sf::RenderWindow*w)
 		mirrortime = nullptr;
 	}
 
+	
+
 	if (!stoptime&&bd->blockstop)
 	{
 		stoptime = new progbar;	stoptime->setsize(120, 25);
@@ -107,6 +109,20 @@ void interf::draw(sf::RenderWindow*w)
 	{
 		delete stoptime;
 		stoptime = nullptr;
+	}
+
+	if (!magnettime&&bd->magnetON)
+	{
+		magnettime = new progbar;	magnettime->setsize(120, 25);
+		magnettime->setpos(1045, 470);
+		magnettime->setcolor(220,30,30);
+		magnettime->setemptycolor(0, 0, 0, 0);
+		magnettime->fill();
+	}
+	if (magnettime && !(bd->magnetON))
+	{
+		delete magnettime;
+		magnettime = nullptr;
 	}
 
 	std::ostringstream ss,ss2;
@@ -133,6 +149,12 @@ void interf::draw(sf::RenderWindow*w)
 	{
 		stoptime->fill(bd->stoptime / bd->maxstoptime * 100);
 		stoptime->show(w);
+	}
+
+	if (magnettime)
+	{
+		magnettime->fill(bd->magnettime / bd->maxmagnettime * 100);
+		magnettime->show(w);
 	}
 }
 

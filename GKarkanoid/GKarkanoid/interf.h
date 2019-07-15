@@ -17,7 +17,7 @@ class interf
 	sf::Font f;
 	board* bd;
 	progbar pboost;
-	progbar *mirrortime = nullptr, *stoptime = nullptr;
+	progbar *mirrortime = nullptr, *stoptime = nullptr, *magnettime = nullptr;
 	
 	void createmenu();
 	void showmenu(sf::RenderWindow*w);

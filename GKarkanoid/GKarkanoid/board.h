@@ -19,8 +19,8 @@ class board
 
 	float totaltime = 0, timetomove = 1;
 
-	const static int bonustypes=11;
-	int bonuschances[bonustypes] = { 150,200,200,200,70,80,20,20,20,20,20 };
+	const static int bonustypes=13;
+	int bonuschances[bonustypes] = { 150,200,200,200,70,80,20,20,20,20,20,20,20 };
 	int bonuschances2[bonustypes] = { 150,200,300,200,70,80 };
 	int bonuschances3[bonustypes] = { 150,200,300,200,70,80 };
 	int rollb(int ch[])
@@ -48,9 +48,10 @@ class board
 	void removeblock(int i);
 public:
 	bool option0 = false;
-
+	bool magnetON = false;
 	bool blockstop = false;
 	float stoptime = 5, maxstoptime;
+	float magnettime = 15, maxmagnettime;
 	int gamestate;
 	int getballc() { return balls.size(); }
 	float psize;

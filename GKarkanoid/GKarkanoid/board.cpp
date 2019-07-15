@@ -6,8 +6,8 @@ void board::updpowerups(float dt)
 {
 	for (int i = 0; i < powerups.size(); i++)
 	{
-		powerups[i]->update(dt);
 		float px = p.getPosition().x;
+		powerups[i]->update(dt, magnetON,px,psize);
 		float pux = powerups[i]->getPosition().x;
 		float puy = powerups[i]->getPosition().y;
 
@@ -102,10 +102,25 @@ void board::updpowerups(float dt)
 						}
 					}
 					break;
+
+				case magnet:
+					magnetON = true;
+					p.setFillColor(sf::Color::Red);
+					if (magnettime < 0)
+						magnettime = 0;
+					if (magnettime < 10)
+						magnettime += 10;
+					else
+						magnettime += (20 / (1 + magnettime));
+					maxmagnettime = magnettime;
+					break;
+
 				case destrRandom:
 					int r = rand() % blocks.size();
 					removeblock(r);
 					break;
+
+				
 				}
 
 				delete powerups[i];
@@ -213,7 +228,6 @@ void board::draw(sf::RenderWindow * w)
 	w->draw(border);
 	if (sBar)
 		w->draw(*sBar);
-
 	if (mirrorP)
 		w->draw(*mirrorP);
 	w->draw(p);
@@ -257,6 +271,7 @@ void board::update(float dt)
 		}
 
 		mirrortime -= dt;
+		magnettime -= dt;
 
 		if (stoptime < 0)
 			blockstop = false;
@@ -266,6 +281,13 @@ void board::update(float dt)
 			delete mirrorP;
 			mirrorP = nullptr;
 		}
+
+		if (magnettime < 0)
+		{
+			magnetON = false;
+			p.setFillColor(sf::Color::Color(200, 220, 255));
+		}
+			
 
 		if (timetomove < 0)
 		{
