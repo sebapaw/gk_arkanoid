@@ -18,11 +18,13 @@ class board
 
 	float totaltime = 0, timetomove = 1;
 
-	const static int bonustypes=13;
-	int bonuschances[bonustypes] = { 140,200,230,120,40,80,20,20,8,7,
-									20,30,25 };
-	//int bonuschances2[bonustypes] = { 150,200,300,200,70,80 };
-	//int bonuschances3[bonustypes] = { 150,200,300,200,70,80 };
+	const static int bonustypes=14;
+	int bonuschances[bonustypes] = { 140,200,230,120,40,80,30,20,8,7,
+									20,30,25,10 };
+	int bonuschances2[bonustypes] = { 50,280,300,100,20,80,30,20,7,6,
+									20,30,25,10};
+	int bonuschances3[bonustypes] = { 150,240,300,12,3 ,170, 5, 4,25,21,
+									18,40,0,0};
 	int rollb(int ch[])
 	{
 		int sum = 0;

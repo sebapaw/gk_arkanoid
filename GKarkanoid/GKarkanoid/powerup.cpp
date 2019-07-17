@@ -177,8 +177,6 @@ void powerup::update(float dt, bool magnetON, float px, float psize)
 
 		float movey = dt * (40 + 200000 * diffy / ((abs(diffx) + 50)*diff*diff));
 		if (movey > 50) movey = 50;
-		if (movey < 0)
-			movey = 0;
 
 		if (diffx > 0)
 			move(dt * 1000000 / (diff*diff), movey);

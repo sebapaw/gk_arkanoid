@@ -5,7 +5,7 @@
 int main()
 {
 	srand(time(0));
-	sf::RenderWindow wi(sf::VideoMode(1280, 800), "a");
+	sf::RenderWindow wi(sf::VideoMode(1280, 760), "a");
 	wi.setFramerateLimit(60);
 
 	board bd;

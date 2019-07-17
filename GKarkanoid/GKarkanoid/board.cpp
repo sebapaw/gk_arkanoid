@@ -11,16 +11,14 @@ void board::updpowerups(float dt)
 		float pux = powerups[i]->getPosition().x;
 		float puy = powerups[i]->getPosition().y;
 
-		if (puy > 740 - powerups[i]->getRadius())
+		if (puy > 730 - powerups[i]->getRadius())
 		{
 			if (pux > px&&pux < px + psize && puy < 740)
 			{
-
 				switch (powerups[i]->powerupType)
 				{
 				case multiBall:
 					balls.push_back(new ball());
-					
 					break;
 
 				case longerBoard:
@@ -35,17 +33,15 @@ void board::updpowerups(float dt)
 					else
 						psize += (10 / (psize - 360));
 					p.setSize(sf::Vector2f(psize, 10));
-
+					if (mirrorP) mirrorP->setSize(sf::Vector2f(psize, 10));
 					break;
-					
 
 				case shieldBar:
 					sBar = new sf::RectangleShape();
 					sBar->setSize(sf::Vector2f(1000, 5));
-					sBar->setPosition(10, 745);
+					sBar->setPosition(10, 735);
 					shieldHP += (2 + rand() % 2)*shieldmult;
 					sBar->setFillColor(sf::Color::Color(0, 0, 255));
-					
 					break;
 
 				case stop:
@@ -56,8 +52,6 @@ void board::updpowerups(float dt)
 						stoptime += (10 / (1 + stoptime)) * 5;
 					maxstoptime = stoptime;
 					break;
-
-
 				case mirror:
 					delete mirrorP;
 					mirrorP = new sf::RectangleShape();
@@ -69,9 +63,7 @@ void board::updpowerups(float dt)
 					mirrorP->setSize(sf::Vector2f(psize, 10));
 					mirrorP->setPosition(1010 - p.getPosition().x - psize, p.getPosition().y);
 					mirrorP->setFillColor(sf::Color::Color(210, 225, 240, 128));
-					
 					break;
-
 
 				case lvlup:
 					balls[rand() % balls.size()]->lvlup();
@@ -123,15 +115,17 @@ void board::updpowerups(float dt)
 					if(blocks.size()>0)
 						removeblock(rand() % blocks.size());
 					break;
-
-				
+				case shorterBoard:
+					psize -= 1;
+					p.setSize(sf::Vector2f(psize, 10));
+					if (mirrorP) mirrorP->setSize(sf::Vector2f(psize, 10));
 				}
 
 				delete powerups[i];
 				powerups.erase(powerups.begin() + i);
 
 			}
-			if (puy > 740)
+			if (puy > 730)
 			{
 				delete powerups[i];
 				powerups.erase(powerups.begin() + i);
@@ -188,7 +182,7 @@ void board::removeblock(int i)
 
 void board::bounce(ball * bal,float px)
 {
-	bal->setPosition(bal->getPosition().x, 1464 - bal->getPosition().y);
+	bal->setPosition(bal->getPosition().x, 1444 - bal->getPosition().y);
 	bal->v.y *= -1;
 	if (px > -0.5)
 	{
@@ -204,7 +198,7 @@ void board::bounce(ball * bal,float px)
 board::board()
 {
 	border.setPosition(10, 10);
-	border.setSize(sf::Vector2f(1000, 750));
+	border.setSize(sf::Vector2f(1000, 740));
 	border.setOutlineThickness(5);
 	border.setFillColor(sf::Color::Color(40, 40, 40));
 	border.setOutlineColor(sf::Color::Color(140, 70, 240));
@@ -212,7 +206,7 @@ board::board()
 	p.setFillColor(sf::Color::Color(200, 220, 255));
 	psize = 70;
 	p.setSize(sf::Vector2f(psize, 10));
-	p.setPosition(600, 740);
+	p.setPosition(600, 730);
 
 	balls.push_back(new ball());
 	gamestate = 0;
@@ -333,9 +327,9 @@ void board::update(float dt)
 				{
 					if (blocks[i]->isghost == false && checkcoli(blocks[i], balls[j]))
 					{
-						int chance = 7 - floor(log((double)(balls.size())));
+						int chance = 6 - floor(log((double)(balls.size())));
 						if (rand() % 100<chance)
-							powerups.push_back(new powerup(blocks[i]->getPosition(),rollb(bonuschances)));
+							powerups.push_back(new powerup(blocks[i]->getPosition(),rollb(bonuschances2)));
 
 						if (blocks[i]->takedmg(balls[j]->getdmg()*dmgmult,balls[j]->type==3))
 							removeblock(i);
@@ -359,9 +353,9 @@ void board::update(float dt)
 				balls[j]->setPosition(bx, 36 - by);
 				balls[j]->v.y *= -1;
 			}
-			if (by > 732) {
+			if (by > 722) {
 					
-				if (bx > px&&bx < px + psize && (by < 740 || balls[j]->oldpos.y < 732) && balls[j]->v.y>0)
+				if (bx > px&&bx < px + psize && (by < 740 || balls[j]->oldpos.y < 722) && balls[j]->v.y>0)
 					bounce(balls[j],px);
 
 				
@@ -370,14 +364,14 @@ void board::update(float dt)
 				{
 					float mpx = mirrorP->getPosition().x;
 
-					if (bx > mpx&&bx < mpx + psize && (by < 740 || balls[j]->oldpos.y < 732) && balls[j]->v.y>0)
+					if (bx > mpx&&bx < mpx + psize && (by < 740 || balls[j]->oldpos.y < 722) && balls[j]->v.y>0)
 						bounce(balls[j], mpx);
 				}
 
 				if (sBar)
 				{
 					float by = balls[j]->getPosition().y;
-					if (by > 737 && balls[j]->v.y > 0)
+					if (by > 727 && balls[j]->v.y > 0)
 					{
 						bounce(balls[j]);
 						shieldHP -= balls[j]->getdmg();
@@ -389,7 +383,7 @@ void board::update(float dt)
 						}
 					}
 				}
-				if (by > 748)
+				if (by > 738)
 				{
 					if (balls.size() > 1)
 					{
@@ -499,41 +493,20 @@ void board::moveblocks()
 		--*blocks[i];
 	for (size_t i = 0; i < blocks.size(); i++)
 		if (blocks[i]->gethp() < 1)
-		{
-			if (blocks[i]->type == 1)
-				dmgmult += 1;
-			else if (blocks[i]->type == 2)
-				shieldmult += 1;
-			if (rand() % 2 == 0)
-				powerups.push_back(new powerup(blocks[i]->getPosition()));
-			delete blocks[i];
-			blocks.erase(blocks.begin() + i);
-			findlowestblock();
-			score += 1;
-		}
+			removeblock(i);
 
 	lowestblockpos += 1;
-	if (lowestblockpos>748)
+	if (lowestblockpos>738)
 		gamestate = 99;
 	for (size_t i = 0; i < balls.size(); i++)
-	{
 		balls[i]->move(0, 1);
-	}
+	
 
 	if (rand() % 100 < 7)
 	{
-		float tmp = rand() % 100;
-		if (tmp > 50)
-		{
-			if (balls.size() < 10)
-				powerups.push_back(new powerup(sf::Vector2f(rand() % 980 + 20, 20), 0));
-			else
-				powerups.push_back(new powerup(sf::Vector2f(rand() % 980 + 20, 20), 5));
-		}
-		else if(tmp>75)
-			powerups.push_back(new powerup(sf::Vector2f(rand() % 980 + 20, 20), 2));
-		else
-			powerups.push_back(new powerup(sf::Vector2f(rand() % 980 + 20, 20), 1));
+		int multballch = floor(450 * pow(0.84, balls.size()));
+		bonuschances3[0] = multballch;
+			powerups.push_back(new powerup(sf::Vector2f(rand() % 980 + 20, 20), rollb(bonuschances3)));
 	}
 
 }
