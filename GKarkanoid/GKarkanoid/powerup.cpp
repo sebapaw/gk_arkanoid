@@ -170,11 +170,20 @@ void powerup::update(float dt, bool magnetON, float px, float psize)
 {
 	if (magnetON)
 	{
-		float diff = px - this->getPosition().x + psize/2;
-		if (diff > 0)
-			move(dt * 60 + diff/100, dt * 40);
+		float diffx = px - this->getPosition().x + psize/2;
+		float diffy = 740 - getPosition().y;
+		if (diffy < 0)diffy = 0;
+		float diff = sqrt(diffx * diffx + diffy * diffy);
+
+		float movey = dt * (40 + 200000 * diffy / ((abs(diffx) + 50)*diff*diff));
+		if (movey > 50) movey = 50;
+		if (movey < 0)
+			movey = 0;
+
+		if (diffx > 0)
+			move(dt * 1000000 / (diff*diff), movey);
 		else
-			move(-dt * 60 + diff/100, dt * 40);
+			move(-dt * 1000000 / (diff*diff), movey);;
 	}
 	else 
 	{

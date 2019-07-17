@@ -11,7 +11,6 @@ class board
 	std::vector<powerup*> powerups;
 	sf::RectangleShape border, p, *sBar = nullptr;
 	
-	
 	float dist(float x1, float y1, float x2, float y2)
 	{
 		return sqrt((x1 - x2)* (x1 - x2) + (y1 - y2) * (y1 - y2));
@@ -20,12 +19,17 @@ class board
 	float totaltime = 0, timetomove = 1;
 
 	const static int bonustypes=13;
-	int bonuschances[bonustypes] = { 150,200,200,200,70,80,20,20,20,20,20,20,20 };
-	int bonuschances2[bonustypes] = { 150,200,300,200,70,80 };
-	int bonuschances3[bonustypes] = { 150,200,300,200,70,80 };
+	int bonuschances[bonustypes] = { 140,200,230,120,40,80,20,20,8,7,
+									20,30,25 };
+	//int bonuschances2[bonustypes] = { 150,200,300,200,70,80 };
+	//int bonuschances3[bonustypes] = { 150,200,300,200,70,80 };
 	int rollb(int ch[])
 	{
-		int a = rand() % 1000;
+		int sum = 0;
+		for (int i = 0; i < bonustypes; i++)
+			sum += ch[i];
+
+		int a = rand() % sum;
 		for (size_t i = 0; i < bonustypes; i++)
 		{
 			if (a < ch[i])
@@ -46,6 +50,8 @@ class board
 	void bexplode(sf::Vector2f pos, int dmg);
 
 	void removeblock(int i);
+
+	void bounce(ball*bal,float px=-1);
 public:
 	bool option0 = false;
 	bool magnetON = false;

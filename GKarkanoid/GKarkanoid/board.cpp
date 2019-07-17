@@ -28,15 +28,16 @@ void board::updpowerups(float dt)
 						psize += 8;
 					else if (psize < 240)
 						psize += 4;
-					else if (psize < 360)
+					else if (psize < 320)
 						psize += 2;
-					else if (psize < 420)
+					else if (psize < 380)
 						psize += 1;
 					else
-						psize += 0.2;
+						psize += (10 / (psize - 360));
 					p.setSize(sf::Vector2f(psize, 10));
-					
+
 					break;
+					
 
 				case shieldBar:
 					sBar = new sf::RectangleShape();
@@ -49,10 +50,10 @@ void board::updpowerups(float dt)
 
 				case stop:
 					blockstop = true;
-					if (stoptime < 15)
+					if (stoptime < 10)
 						stoptime += 5;
 					else
-						stoptime += (15 / (1 + stoptime)) * 5;
+						stoptime += (10 / (1 + stoptime)) * 5;
 					maxstoptime = stoptime;
 					break;
 
@@ -81,7 +82,10 @@ void board::updpowerups(float dt)
 					break;
 
 				case maxFuel:
-					maxfuel += 15;
+					if (maxfuel < 300)
+						maxfuel += 15;
+					else
+						maxfuel += 10;
 					break;
 
 				case explBall:
@@ -105,19 +109,19 @@ void board::updpowerups(float dt)
 
 				case magnet:
 					magnetON = true;
-					p.setFillColor(sf::Color::Red);
+					p.setFillColor(sf::Color::Color(220,60,120));
 					if (magnettime < 0)
 						magnettime = 0;
 					if (magnettime < 10)
 						magnettime += 10;
 					else
-						magnettime += (20 / (1 + magnettime));
+						magnettime += (40 / ( magnettime-6));
 					maxmagnettime = magnettime;
 					break;
 
 				case destrRandom:
-					int r = rand() % blocks.size();
-					removeblock(r);
+					if(blocks.size()>0)
+						removeblock(rand() % blocks.size());
 					break;
 
 				
@@ -180,6 +184,21 @@ void board::removeblock(int i)
 	delete blocks[i];
 	blocks.erase(blocks.begin() + i);
 	findlowestblock();
+}
+
+void board::bounce(ball * bal,float px)
+{
+	bal->setPosition(bal->getPosition().x, 1464 - bal->getPosition().y);
+	bal->v.y *= -1;
+	if (px > -0.5)
+	{
+		float angchange = ((bal->getPosition().x - px) / psize - 0.5) * 100;
+		float ang = bal->getangle() + angchange;
+
+		if (ang > 320)ang = 320 + 40 * ((ang - 320) / (ang - 280));
+		if (ang < 220)ang = 220 - ((220 - ang) / (260 - ang) * 40);
+		bal->setangle(ang);
+	}
 }
 
 board::board()
@@ -251,10 +270,11 @@ void board::update(float dt)
 {
 	if (gamestate == 1)
 	{
-		bool spcpress = sf::Keyboard::isKeyPressed(sf::Keyboard::Space);
-		if (!blockstop|| spcpress)
+		
+		bool downpress = sf::Keyboard::isKeyPressed(sf::Keyboard::Down);
+		if (!blockstop|| downpress)
 		{
-			if (spcpress)
+			if (downpress)
 			{
 				totaltime += dt*20;
 				timetomove -= dt*20;
@@ -266,9 +286,7 @@ void board::update(float dt)
 			}
 		}
 		else
-		{
 			stoptime -= dt;
-		}
 
 		mirrortime -= dt;
 		magnettime -= dt;
@@ -288,7 +306,6 @@ void board::update(float dt)
 			p.setFillColor(sf::Color::Color(200, 220, 255));
 		}
 			
-
 		if (timetomove < 0)
 		{
 			moveblocks();
@@ -302,10 +319,7 @@ void board::update(float dt)
 		}
 
 		for (size_t i = 0; i < balls.size(); i++)
-		{
 			balls[i]->speedup(dt * 1);
-		}
-
 
 		checkghcol();
 
@@ -319,20 +333,15 @@ void board::update(float dt)
 				{
 					if (blocks[i]->isghost == false && checkcoli(blocks[i], balls[j]))
 					{
-						
 						int chance = 7 - floor(log((double)(balls.size())));
 						if (rand() % 100<chance)
 							powerups.push_back(new powerup(blocks[i]->getPosition(),rollb(bonuschances)));
 
 						if (blocks[i]->takedmg(balls[j]->getdmg()*dmgmult,balls[j]->type==3))
-						{
 							removeblock(i);
-						}
 
 						if (balls[j]->type == 2)
-						{
 							bexplode(balls[j]->getPosition(), balls[j]->getdmg());
-						}
 					}
 				}
 
@@ -351,37 +360,18 @@ void board::update(float dt)
 				balls[j]->v.y *= -1;
 			}
 			if (by > 732) {
-
+					
 				if (bx > px&&bx < px + psize && (by < 740 || balls[j]->oldpos.y < 732) && balls[j]->v.y>0)
-				{
-					balls[j]->setPosition(bx, 1464 - by);
-					balls[j]->v.y *= -1;
-					float angchange = ((bx - px) / psize - 0.5) * 100;
-					float ang = balls[j]->getangle() + angchange;
+					bounce(balls[j],px);
 
-					if (ang > 320)ang = 320 + 40 * ((ang - 320) / (ang - 280));
-					if (ang < 220)ang = 220 - ((220 - ang) / (260 - ang) * 40);
-					balls[j]->setangle(ang);
-
-					//moveblocks();
-				}
+				
 
 				if (mirrorP)
 				{
 					float mpx = mirrorP->getPosition().x;
 
 					if (bx > mpx&&bx < mpx + psize && (by < 740 || balls[j]->oldpos.y < 732) && balls[j]->v.y>0)
-					{
-						balls[j]->setPosition(bx, 1464 - by);
-						balls[j]->v.y *= -1;
-						float angchange = ((bx - mpx) / psize - 0.5) * 100;
-						float ang = balls[j]->getangle() + angchange;
-
-						if (ang > 320)ang = 320 + 40 * ((ang - 320) / (ang - 280));
-						if (ang < 220)ang = 220 - ((220 - ang) / (260 - ang) * 40);
-						balls[j]->setangle(ang);
-
-					}
+						bounce(balls[j], mpx);
 				}
 
 				if (sBar)
@@ -389,8 +379,7 @@ void board::update(float dt)
 					float by = balls[j]->getPosition().y;
 					if (by > 737 && balls[j]->v.y > 0)
 					{
-						balls[j]->setPosition(balls[j]->getPosition().x, 1474 - by);
-						balls[j]->v.y *= -1;
+						bounce(balls[j]);
 						shieldHP -= balls[j]->getdmg();
 						if (shieldHP < 1)
 						{
@@ -433,6 +422,8 @@ void board::update(float dt)
 			pboost -= dt * 15;
 			pspeed *= 3;
 		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::LControl))
+			pspeed *= 0.5;
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
 		{
 			p.move(-pspeed * dt, 0);
@@ -553,24 +544,25 @@ bool board::checkcoli(block * bl, ball* bal)
 	float r = bal->getRadius();
 	float xa = bal->getPosition().x;
 	float ya = bal->getPosition().y;
-	sf::Vector2f curbal(xa, ya);
+	
 
 	float xleft = bl->getPosition().x - (bl->getSize().x / 2);
 	float xright = bl->getPosition().x + (bl->getSize().x / 2);
 	float ytop = bl->getPosition().y - (bl->getSize().y / 2);
 	float ydown = bl->getPosition().y + (bl->getSize().y / 2);
 
-	//sf::Vector2f blLT(xleft, ytop);
-	//sf::Vector2f blLD(xleft, ydown);
-	//sf::Vector2f blRT(xright, ytop);
-	//sf::Vector2f blRD(xright, ydown);
-
-	bool ng = !bl->isghost;
-
 	if (xa > xright + r || xa < xleft - r || ya + r<ytop || ya - r>ydown)	//optymalizacja
 	{
 		return false;
 	}
+
+	bool ng = !bl->isghost;
+
+	sf::Vector2f curbal(xa, ya);
+	//sf::Vector2f blLT(xleft, ytop);
+	//sf::Vector2f blLD(xleft, ydown);
+	//sf::Vector2f blRT(xright, ytop);
+	//sf::Vector2f blRD(xright, ydown);
 
 
 	if (xa + r > xleft && xa - r < xright && ya > ytop && ya < ydown) // left & right
@@ -647,8 +639,6 @@ bool board::checkcoli(block * bl, ball* bal)
 		if (ng)bal->setangle(45);
 		return true;
 	}
-
-	
 
 	return false;
 }

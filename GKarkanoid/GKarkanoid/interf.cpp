@@ -115,7 +115,7 @@ void interf::draw(sf::RenderWindow*w)
 	{
 		magnettime = new progbar;	magnettime->setsize(120, 25);
 		magnettime->setpos(1045, 470);
-		magnettime->setcolor(220,30,30);
+		magnettime->setcolor(220,60,120);
 		magnettime->setemptycolor(0, 0, 0, 0);
 		magnettime->fill();
 	}
@@ -129,7 +129,7 @@ void interf::draw(sf::RenderWindow*w)
 	ss << "lives: " << bd->lives << "\nscore: " << bd->score << "\nshield HP: " << bd->shieldHP
 		<< "\ndmg mult:" << bd->dmgmult << "\n\nballs:"<<bd->getballc();
 
-	pboost.fill(bd->pboost / bd->maxfuel * 100);	//max pboost=120
+	pboost.fill(bd->pboost / bd->maxfuel * 100);	
 	ss2 << floor(bd->pboost) << "/" << bd->maxfuel;
 	pboosttx.setString(ss2.str());
 
