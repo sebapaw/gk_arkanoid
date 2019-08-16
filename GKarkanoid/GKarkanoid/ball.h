@@ -21,6 +21,11 @@ public:
 			setOutlineThickness(4);
 			setOutlineColor(sf::Color::Color(150, 245, 180, 150));
 		}
+		if (type == 4)
+		{
+			setOutlineThickness(4);
+			setOutlineColor(sf::Color::Color(40, 160, 0, 170));
+		}
 	}
 	sf::Vector2f oldpos;
 	int getdmg() { return lvl * basedmg; }

@@ -8,6 +8,8 @@ class block :public sf::RectangleShape
 	sf::Font f;
 	const float sizex = 60, sizey = 30;
 	float rad=0;
+	//float raddottmr = 1;
+	float poison = 0;
 
 public:
 	int gethp() { return hp; }
@@ -18,9 +20,9 @@ public:
 	block(float x, float y, int hp,bool gh=false, int t=0);
 
 	void draw(sf::RenderWindow* w,bool opt0=false,int div=1);
-	bool takedmg(int d,bool r=false);
+	bool takedmg(int d, int t=0);
 	void operator--();
-
+	void upddots(int t);
 	~block();
 };
 

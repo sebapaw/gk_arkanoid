@@ -72,12 +72,16 @@ void block::draw(sf::RenderWindow * w,bool opt,int div)
 	w->draw(hptext);
 }
 
-bool block::takedmg(int d,bool r)
+bool block::takedmg(int d,int t)
 {
-	if (r)
+	if (t==3)
 		rad = pow(pow(d, 1.25) + pow(rad, 1.25), 0.8);
-	if (type == 2&&d>0)
+	if (type == 2 && d > 0)
 		d = 1;
+	else
+		d = d*(1+0.02*pow(log(poison+1),1.3));
+	if (t == 4)
+		poison += d * d;
 	hp -= d;
 	if (hp < 1)
 	{
@@ -105,24 +109,17 @@ void block::operator--()
 {
 	move(0, 1);
 	hptext.move(0, 1);
-	if (rad > 0)
-	{
-		int raddmg = int((rand() % 100)*(rand() % 100) / 6000.0f * rad);
-		takedmg(raddmg);
-		rad -= raddmg * 0.12;
-	}
-
 
 	if (type == 3 && rand() % 100 < 60)
 	{
 		if (maxhp > 80)
 		{
-			hp += maxhp / 80;
+			hp += maxhp / (80*(1+0.16*pow(log(poison+1),0.8)));
 			if (hp > maxhp)
 				hp = maxhp;
 		}
 		else
-			if (rand() % 80 < maxhp&&hp<maxhp)
+			if (rand() % 80 < maxhp&&hp<maxhp&&poison<1)	
 				hp++;
 
 		/*std::ostringstream ss;
@@ -131,6 +128,22 @@ void block::operator--()
 		setFillColor(sf::Color::Color(240 - 240 * hp / maxhp, 240, 255));
 	}
 
+}
+
+void block::upddots(int t)
+{
+	
+	if (t % 2 == 1)
+	{
+		int raddmg = int((rand() % 100)*(rand() % 100) / 6000.0f * rad);
+		takedmg(raddmg);
+		rad -= raddmg * 0.12;
+	}
+	if ((t/ 2)%2 == 1)
+	{
+		int poisondmg = pow(poison, 0.55)*0.01;
+		takedmg(poisondmg);
+	}
 }
 
 block::~block()

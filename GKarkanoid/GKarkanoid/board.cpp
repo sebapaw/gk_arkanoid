@@ -40,7 +40,7 @@ void board::updpowerups(float dt)
 					sBar = new sf::RectangleShape();
 					sBar->setSize(sf::Vector2f(1000, 5));
 					sBar->setPosition(10, 735);
-					shieldHP += (2 + rand() % 2)*shieldmult;
+					shieldHP += ((shieldHP>200?1:2) + rand() % 2)*shieldmult;
 					sBar->setFillColor(sf::Color::Color(0, 0, 255));
 					break;
 
@@ -119,6 +119,9 @@ void board::updpowerups(float dt)
 					psize -= 1;
 					p.setSize(sf::Vector2f(psize, 10));
 					if (mirrorP) mirrorP->setSize(sf::Vector2f(psize, 10));
+				case poisonBall:
+					balls[rand() % balls.size()]->updtype(4);
+					break;
 				}
 
 				delete powerups[i];
@@ -172,7 +175,7 @@ void board::removeblock(int i)
 		dmgmult += 1;
 	else if (blocks[i]->type == 2)
 		shieldmult += 1;
-	if (rand() % 2 == 0)
+	if (rand() % 5 <2)
 		powerups.push_back(new powerup(blocks[i]->getPosition(), rollb(bonuschances)));
 	score += 1;
 	delete blocks[i];
@@ -264,7 +267,24 @@ void board::update(float dt)
 {
 	if (gamestate == 1)
 	{
-		
+		int dotst = 0;// rad=1, poison=2,...=4,..
+		for (int i = 0; i < 2; i++)
+		{
+			dottimer[i] -= dt;
+			if (dottimer[i] < 0)
+			{
+				dottimer[i] += 1;	//rad - 1s, poison - 1s,
+				dotst += pow(2, i);
+			}
+		}
+		if (dotst > 0)
+			for (int i = 0; i < blocks.size(); i++)
+			{
+				blocks[i]->upddots(dotst);
+				if (blocks[i]->gethp() < 1)
+					removeblock(i);
+			}
+			
 		bool downpress = sf::Keyboard::isKeyPressed(sf::Keyboard::Down);
 		if (!blockstop|| downpress)
 		{
@@ -322,16 +342,16 @@ void board::update(float dt)
 			balls[j]->update(dt);
 			float bx = balls[j]->getPosition().x;
 			float by = balls[j]->getPosition().y;
-			if(!(by>lowestblockpos||by<77))
+			if(!(by>lowestblockpos||by<77))//optymalizacja
 				for (size_t i = 0; i < blocks.size(); i++)
 				{
 					if (blocks[i]->isghost == false && checkcoli(blocks[i], balls[j]))
 					{
-						int chance = 6 - floor(log((double)(balls.size())));
-						if (rand() % 100<chance)
+						int chance = 50 - floor(10*log((double)(balls.size())));
+						if (rand() % 1000<chance)
 							powerups.push_back(new powerup(blocks[i]->getPosition(),rollb(bonuschances2)));
 
-						if (blocks[i]->takedmg(balls[j]->getdmg()*dmgmult,balls[j]->type==3))
+						if (blocks[i]->takedmg(balls[j]->getdmg()*dmgmult,balls[j]->type))
 							removeblock(i);
 
 						if (balls[j]->type == 2)
@@ -491,9 +511,7 @@ void board::moveblocks()
 {
 	for (size_t i = 0; i < blocks.size(); i++)	//obnizanie klockow
 		--*blocks[i];
-	for (size_t i = 0; i < blocks.size(); i++)
-		if (blocks[i]->gethp() < 1)
-			removeblock(i);
+	
 
 	lowestblockpos += 1;
 	if (lowestblockpos>738)

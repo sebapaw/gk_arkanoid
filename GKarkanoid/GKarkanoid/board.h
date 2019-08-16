@@ -18,13 +18,13 @@ class board
 
 	float totaltime = 0, timetomove = 1;
 
-	const static int bonustypes=14;
+	const static int bonustypes=15;
 	int bonuschances[bonustypes] = { 140,200,230,120,40,80,30,20,8,7,
-									20,30,25,10 };
+									20,30,25,10,6 };
 	int bonuschances2[bonustypes] = { 50,280,300,100,20,80,30,20,7,6,
-									20,30,25,10};
+									20,30,25,10,5};
 	int bonuschances3[bonustypes] = { 150,240,300,12,3 ,170, 5, 4,25,21,
-									18,40,0,0};
+									18,40,0,0,19};
 	int rollb(int ch[])
 	{
 		int sum = 0;
@@ -44,7 +44,7 @@ class board
 
 
 	void updpowerups(float dt);
-	
+	float dottimer[2] = { 1,1 };
 		
 	void findlowestblock();		//lowestpos +23
 	float lowestblockpos;
