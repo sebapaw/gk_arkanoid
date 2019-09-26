@@ -1,6 +1,10 @@
 #include "interf.h"
 #include <sstream>
+#include <fstream>
+#include <iostream>
+#include <string>
 
+using namespace std;
 
 void interf::createmenu()
 {
@@ -33,6 +37,100 @@ void interf::createmenu()
 
 }
 
+void interf::createhighscorescreen()
+{
+	highscore = new sf::RectangleShape;
+	highscore->setFillColor(sf::Color::Color(100, 140, 180));
+	highscore->setPosition(300, 100);
+	highscore->setSize(sf::Vector2f(600, 600));
+
+	backb = new button;
+	backb->set(420, 220, "back");
+	backb->setsize(150, 50);
+
+	if (!fileread)
+	{
+		ifstream highscoref;
+		highscoref.open("highscore.txt");
+		if (!highscoref.fail())
+		{
+			string str;
+			while (std::getline(highscoref, str))
+			{
+				hsname.push_back(str.substr(0, 3));
+				size_t pos = str.find(" ");
+				hsvalue.push_back(stoi(str.substr(pos + 1)));
+				it++;
+			}
+			//if (bd->score > hsvalue.at(hsvalue.size()) || (hsvalue.size()<10 && bd->score != 0))
+			fileread = true;
+			highscoref.close();
+		}
+		string highscorestr = "";
+
+		for (int i = 0;i < hsname.size();i++)
+		{
+			highscorestr += to_string(i + 1);
+			if(i==0)
+				highscorestr += "   | ";
+			if(i>0 && i<9)
+				highscorestr += "  | ";
+			if(i==9)
+				highscorestr += " | ";
+			highscorestr += hsname.at(i);
+			highscorestr += " | ";
+			highscorestr += to_string(hsvalue.at(i));
+			highscorestr += "\n";
+
+		}
+		highscorelist.setString(highscorestr);
+		highscorelist.setFont(f);
+		highscorelist.setPosition(620, 210);
+		highscorelist.setCharacterSize(40);
+		highscorelist.setFillColor(sf::Color(220, 220, 220));
+	}
+}
+
+void interf::creategameoverscreen()
+{
+	gameover = new sf::RectangleShape;
+	gameover->setFillColor(sf::Color::Color(100, 140, 180));
+	gameover->setPosition(400, 200);
+	gameover->setSize(sf::Vector2f(400, 300));
+
+	gameoverb = new button;
+	gameoverb->set(420, 420, "exit");
+	gameoverb->setsize(150, 50);
+
+	gameovert.setFont(f);
+	gameovert.setPosition(520, 210);
+	gameovert.setCharacterSize(40);
+	gameovert.setString("Game Over");
+	gameovert.setFillColor(sf::Color(200, 30, 30));
+
+	
+}
+
+void interf::createnewRecord()
+{
+	newRecord = new sf::RectangleShape;
+	newRecord->setFillColor(sf::Color::Color(100, 140, 180));
+	newRecord->setPosition(400, 200);
+	newRecord->setSize(sf::Vector2f(400, 300));
+
+	newscoret.setFont(f);
+	newscoret.setPosition(520, 210);
+	newscoret.setCharacterSize(20);
+	newscoret.setString("New highscore!\nEnter your name");
+	newscoret.setFillColor(sf::Color(200, 30, 30));
+
+	newscorenamet.setFont(f);
+	newscorenamet.setPosition(500, 280);
+	newscorenamet.setCharacterSize(100);
+	newscorenamet.setString("");
+	newscorenamet.setFillColor(sf::Color(30, 30, 30));
+}
+
 void interf::showmenu(sf::RenderWindow*w)
 {
 	sf::Vector2i pos = sf::Mouse::getPosition(*w);
@@ -55,6 +153,13 @@ void interf::showmenu(sf::RenderWindow*w)
 		menu = nullptr;
 	}
 
+	if (highb->checkclick(mp, pos))
+	{
+		createhighscorescreen();
+		deletemenu();
+		menu = nullptr;
+	}
+
 	if (menu)
 	{
 		w->draw(*menu);
@@ -65,21 +170,217 @@ void interf::showmenu(sf::RenderWindow*w)
 	}
 }
 
+void interf::showhighscorescreen(sf::RenderWindow * w)
+{
+	sf::Vector2i pos = sf::Mouse::getPosition(*w);
+	bool mp = sf::Mouse::isButtonPressed(sf::Mouse::Left);
+
+	//if (highb->checkclick(mp, pos))
+
+	if (backb->checkclick(mp, pos))
+	{
+		deletehighscorescreen();
+		highscore = nullptr;
+		createmenu();
+	}
+
+	if (highscore)
+	{
+		w->draw(*highscore);
+		backb->show(w);
+		w->draw(highscorelist);
+	}
+}
+
+void interf::showgameoverscreen(sf::RenderWindow * w)
+{
+	sf::Vector2i pos = sf::Mouse::getPosition(*w);
+	bool mp = sf::Mouse::isButtonPressed(sf::Mouse::Left);
+
+	//if (highb->checkclick(mp, pos))
+
+	if (gameoverb->checkclick(mp, pos))
+	{
+		w->close();
+	}
+
+	if (gameover)
+	{
+		w->draw(*gameover);
+		gameoverb->show(w);
+		w->draw(gameovert);
+	}
+}
+
+void interf::shownewRecord(sf::RenderWindow * w)
+{
+	sf::Vector2i pos = sf::Mouse::getPosition(*w);
+	bool mp = sf::Mouse::isButtonPressed(sf::Mouse::Left);
+
+	//if (highb->checkclick(mp, pos))
+	if (scoreinput.size()==3)
+	{
+		bd->scoresaved = true;
+		newRecord = nullptr;
+	}
+	sf::Event event;
+	while (w->pollEvent(event) && scoreinput.size()<3) 
+	{ 
+		if (event.type == sf::Event::TextEntered)
+		{
+			if (scoreinput.size() < 3)
+			{
+				scoreinput += event.text.unicode;
+				newscorenamet.setString(scoreinput);
+			}
+			
+		}
+		if (scoreinput.size() == 3)
+			break;
+	}
+
+	if (newRecord)
+	{
+		w->draw(*newRecord);
+		w->draw(newscoret);
+		w->draw(newscorenamet);
+		w->draw(nameunderfield);
+	}
+	else
+	{
+		ofstream highscoref;
+		highscoref.open("highscore.txt");
+		int iter = 0;
+		bool saved = false;
+		if (highscoref.is_open())
+		{
+			int i;
+			for (i = 0;i < hsname.size();i++)
+			{
+				if (i < 10)
+				{
+					if (bd->score > hsvalue.at(i) && !saved)
+					{
+						highscoref << scoreinput << " " << to_string(bd->score) << "\n";
+						saved = true;
+					}
+					else
+					{
+						highscoref << hsname.at(iter) << " " << to_string(hsvalue.at(iter)) << "\n";
+						iter++;
+					}
+					
+				}
+			}
+			if (!saved && i<10)
+			{
+				highscoref << scoreinput << " " << to_string(bd->score) << "\n";
+			}
+			highscoref.close();
+		}
+		updscore = true;
+		if (!gameover)
+		{
+				creategameoverscreen();
+				showgameoverscreen(w);
+
+		}
+		else
+		{
+				showgameoverscreen(w);
+		}
+	}
+}
+
 void interf::draw(sf::RenderWindow*w)
 {
 	if (bd->gamestate == 0)
 		if (!menu)
 		{
-			createmenu();
-			showmenu(w);
+			if (!highscore)
+			{
+				createmenu();
+				showmenu(w);
+			}
+			else
+				showhighscorescreen(w);
+			
 		}
 		else
+		{
 			showmenu(w);
+		}
+			
 	if (bd->gamestate != 0 && menu)
 	{
 		deletemenu();
 		menu = nullptr;
 	}
+
+	if (bd->gamestate == 99)
+	{
+		//bd->score = 999;
+		
+		//int it=0;
+		if (!fileread)
+		{
+			ifstream highscoref;
+			highscoref.open("highscore.txt");
+			if (!highscoref.fail())
+			{
+				string str;
+				while (std::getline(highscoref, str))
+				{
+					hsname.push_back(str.substr(0, 3));
+					size_t pos = str.find(" ");
+					hsvalue.push_back(stoi(str.substr(pos + 1)));
+					it++;
+				}
+				//if (bd->score > hsvalue.at(hsvalue.size()) || (hsvalue.size()<10 && bd->score != 0))
+				fileread = true;
+				highscoref.close();
+			}
+		}
+
+		if (!bd->scoresaved)
+		{
+			if (it < 10 || bd->score > hsvalue.at(it - 1))
+			{
+				if (bd->score != 0)
+				{
+					updscore = false;
+					if (!newRecord)
+					{
+						createnewRecord();
+						shownewRecord(w);
+					}
+					else
+						shownewRecord(w);
+				}
+
+			}
+		}
+		
+			if (!gameover)
+			{
+				if (updscore)
+				{
+					creategameoverscreen();
+					showgameoverscreen(w);
+				}
+				
+			}
+			else
+			{
+				if(updscore)
+					showgameoverscreen(w);
+			}
+				
+		
+
+		//bd->scoresaved = true;
+	}
+
 
 	if (!mirrortime&&bd->mirrorP)
 	{

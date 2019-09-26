@@ -58,6 +58,7 @@ public:
 	bool option0 = false;
 	bool magnetON = false;
 	bool blockstop = false;
+	bool scoresaved = false;
 	float stoptime = 5, maxstoptime;
 	float magnettime = 15, maxmagnettime;
 	int gamestate;

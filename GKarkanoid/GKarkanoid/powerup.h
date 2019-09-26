@@ -2,7 +2,7 @@
 #include <SFML/Graphics.hpp>
 
 enum PowerType { multiBall, longerBoard, shieldBar, stop, mirror, lvlup, fuel, maxFuel, explBall, radBall,
-	dmgAll, destrRandom, magnet,shorterBoard,poisonBall /*,weapon,setback,magnet*/ };
+	dmgAll, destrRandom, magnet,shorterBoard,poisonBall /*,weapon,setback*/ };
 
 class powerup : public sf::CircleShape
 {

@@ -76,7 +76,14 @@ powerup::powerup(sf::Vector2f position)
 		powerupTexture.loadFromFile("Textures/magnet.png");
 		setTexture(&powerupTexture);
 		break;
+
+	case poisonBall:
+		powerupTexture.loadFromFile("Textures/poisonBall.png");
+		setTexture(&powerupTexture);
+		break;
 	}
+
+	
 	
 
 }
@@ -152,6 +159,11 @@ powerup::powerup(sf::Vector2f position, int type)
 
 	case magnet:
 		powerupTexture.loadFromFile("Textures/magnet.png");
+		setTexture(&powerupTexture);
+		break;
+
+	case poisonBall:
+		powerupTexture.loadFromFile("Textures/poisonBall.png");
 		setTexture(&powerupTexture);
 		break;
 	}

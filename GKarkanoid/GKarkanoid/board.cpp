@@ -267,6 +267,7 @@ void board::update(float dt)
 {
 	if (gamestate == 1)
 	{
+		scoresaved = false;
 		int dotst = 0;// rad=1, poison=2,...=4,..
 		for (int i = 0; i < 2; i++)
 		{
@@ -301,7 +302,7 @@ void board::update(float dt)
 		}
 		else
 			stoptime -= dt;
-
+		//todo highscore zapisywanie
 		mirrortime -= dt;
 		magnettime -= dt;
 
